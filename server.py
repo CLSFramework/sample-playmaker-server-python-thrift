@@ -138,6 +138,7 @@ def serve(port):
     try:
         server.serve()
     except KeyboardInterrupt:
+        server.stop()
         print("Stopping server")
 
 

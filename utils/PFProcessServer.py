@@ -9,6 +9,7 @@ class PFProcessServer(TServer):
 
     def __init__(self, *args):
         TServer.__init__(self, *args)
+        self.processors = []
         # self.processorFactory = args[0]
 
     def serve(self):
@@ -18,9 +19,8 @@ class PFProcessServer(TServer):
                 client = self.serverTransport.accept()
                 if not client:
                     continue
-                p = multiprocessing.Process(target=self.handle, args=(client,))
-                p.start()
-
+                self.processors.append(multiprocessing.Process(target=self.handle, args=(client,)))
+                self.processors[-1].start()
             except KeyboardInterrupt:
                 raise
 
@@ -50,3 +50,8 @@ class PFProcessServer(TServer):
             itrans.close()
             if otrans:
                 otrans.close()
+
+    def stop(self):
+        for p in self.processors:
+            p.terminate()
+        self.serverTransport.close()
