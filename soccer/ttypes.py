@@ -2377,16 +2377,14 @@ class State(object):
     """
     Attributes:
      - register_response
-     - agent_type
      - world_model
      - full_world_model
 
     """
 
 
-    def __init__(self, register_response=None, agent_type=None, world_model=None, full_world_model=None,):
+    def __init__(self, register_response=None, world_model=None, full_world_model=None,):
         self.register_response = register_response
-        self.agent_type = agent_type
         self.world_model = world_model
         self.full_world_model = full_world_model
 
@@ -2406,17 +2404,12 @@ class State(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.I32:
-                    self.agent_type = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.STRUCT:
                     self.world_model = WorldModel()
                     self.world_model.read(iprot)
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.STRUCT:
                     self.full_world_model = WorldModel()
                     self.full_world_model.read(iprot)
@@ -2436,16 +2429,12 @@ class State(object):
             oprot.writeFieldBegin('register_response', TType.STRUCT, 1)
             self.register_response.write(oprot)
             oprot.writeFieldEnd()
-        if self.agent_type is not None:
-            oprot.writeFieldBegin('agent_type', TType.I32, 2)
-            oprot.writeI32(self.agent_type)
-            oprot.writeFieldEnd()
         if self.world_model is not None:
-            oprot.writeFieldBegin('world_model', TType.STRUCT, 3)
+            oprot.writeFieldBegin('world_model', TType.STRUCT, 2)
             self.world_model.write(oprot)
             oprot.writeFieldEnd()
         if self.full_world_model is not None:
-            oprot.writeFieldBegin('full_world_model', TType.STRUCT, 4)
+            oprot.writeFieldBegin('full_world_model', TType.STRUCT, 3)
             self.full_world_model.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -2470,15 +2459,13 @@ class InitMessage(object):
     """
     Attributes:
      - register_response
-     - agent_type
      - debug_mode
 
     """
 
 
-    def __init__(self, register_response=None, agent_type=None, debug_mode=None,):
+    def __init__(self, register_response=None, debug_mode=None,):
         self.register_response = register_response
-        self.agent_type = agent_type
         self.debug_mode = debug_mode
 
     def read(self, iprot):
@@ -2497,11 +2484,6 @@ class InitMessage(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.I32:
-                    self.agent_type = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.BOOL:
                     self.debug_mode = iprot.readBool()
                 else:
@@ -2520,12 +2502,8 @@ class InitMessage(object):
             oprot.writeFieldBegin('register_response', TType.STRUCT, 1)
             self.register_response.write(oprot)
             oprot.writeFieldEnd()
-        if self.agent_type is not None:
-            oprot.writeFieldBegin('agent_type', TType.I32, 2)
-            oprot.writeI32(self.agent_type)
-            oprot.writeFieldEnd()
         if self.debug_mode is not None:
-            oprot.writeFieldBegin('debug_mode', TType.BOOL, 3)
+            oprot.writeFieldBegin('debug_mode', TType.BOOL, 2)
             oprot.writeBool(self.debug_mode)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -10864,7 +10842,7 @@ class TrainerActions(object):
 class ServerParam(object):
     """
     Attributes:
-     - agent_type
+     - register_response
      - inertia_moment
      - player_size
      - player_decay
@@ -11086,13 +11064,12 @@ class ServerParam(object):
      - penalty_area_half_width
      - penalty_area_length
      - goal_width
-     - register_response
 
     """
 
 
-    def __init__(self, agent_type=None, inertia_moment=None, player_size=None, player_decay=None, player_rand=None, player_weight=None, player_speed_max=None, player_accel_max=None, stamina_max=None, stamina_inc_max=None, recover_init=None, recover_dec_thr=None, recover_min=None, recover_dec=None, effort_init=None, effort_dec_thr=None, effort_min=None, effort_dec=None, effort_inc_thr=None, effort_inc=None, kick_rand=None, team_actuator_noise=None, player_rand_factor_l=None, player_rand_factor_r=None, kick_rand_factor_l=None, kick_rand_factor_r=None, ball_size=None, ball_decay=None, ball_rand=None, ball_weight=None, ball_speed_max=None, ball_accel_max=None, dash_power_rate=None, kick_power_rate=None, kickable_margin=None, control_radius=None, control_radius_width=None, max_power=None, min_power=None, max_moment=None, min_moment=None, max_neck_moment=None, min_neck_moment=None, max_neck_angle=None, min_neck_angle=None, visible_angle=None, visible_distance=None, wind_dir=None, wind_force=None, wind_angle=None, wind_rand=None, kickable_area=None, catch_area_l=None, catch_area_w=None, catch_probability=None, goalie_max_moves=None, corner_kick_margin=None, offside_active_area_size=None, wind_none=None, use_wind_random=None, coach_say_count_max=None, coach_say_msg_size=None, clang_win_size=None, clang_define_win=None, clang_meta_win=None, clang_advice_win=None, clang_info_win=None, clang_mess_delay=None, clang_mess_per_cycle=None, half_time=None, simulator_step=None, send_step=None, recv_step=None, sense_body_step=None, lcm_step=None, player_say_msg_size=None, player_hear_max=None, player_hear_inc=None, player_hear_decay=None, catch_ban_cycle=None, slow_down_factor=None, use_offside=None, kickoff_offside=None, offside_kick_margin=None, audio_cut_dist=None, dist_quantize_step=None, landmark_dist_quantize_step=None, dir_quantize_step=None, dist_quantize_step_l=None, dist_quantize_step_r=None, landmark_dist_quantize_step_l=None, landmark_dist_quantize_step_r=None, dir_quantize_step_l=None, dir_quantize_step_r=None, coach_mode=None, coach_with_referee_mode=None, use_old_coach_hear=None, slowness_on_top_for_left_team=None, slowness_on_top_for_right_team=None, start_goal_l=None, start_goal_r=None, fullstate_l=None, fullstate_r=None, drop_ball_time=None, synch_mode=None, synch_offset=None, synch_micro_sleep=None, point_to_ban=None, point_to_duration=None, player_port=None, trainer_port=None, online_coach_port=None, verbose_mode=None, coach_send_vi_step=None, replay_file=None, landmark_file=None, send_comms=None, text_logging=None, game_logging=None, game_log_version=None, text_log_dir=None, game_log_dir=None, text_log_fixed_name=None, game_log_fixed_name=None, use_text_log_fixed=None, use_game_log_fixed=None, use_text_log_dated=None, use_game_log_dated=None, log_date_format=None, log_times=None, record_message=None, text_log_compression=None, game_log_compression=None, use_profile=None, tackle_dist=None, tackle_back_dist=None, tackle_width=None, tackle_exponent=None, tackle_cycles=None, tackle_power_rate=None, freeform_wait_period=None, freeform_send_period=None, free_kick_faults=None, back_passes=None, proper_goal_kicks=None, stopped_ball_vel=None, max_goal_kicks=None, clang_del_win=None, clang_rule_win=None, auto_mode=None, kick_off_wait=None, connect_wait=None, game_over_wait=None, team_l_start=None, team_r_start=None, keepaway_mode=None, keepaway_length=None, keepaway_width=None, keepaway_logging=None, keepaway_log_dir=None, keepaway_log_fixed_name=None, keepaway_log_fixed=None, keepaway_log_dated=None, keepaway_start=None, nr_normal_halfs=None, nr_extra_halfs=None, penalty_shoot_outs=None, pen_before_setup_wait=None, pen_setup_wait=None, pen_ready_wait=None, pen_taken_wait=None, pen_nr_kicks=None, pen_max_extra_kicks=None, pen_dist_x=None, pen_random_winner=None, pen_allow_mult_kicks=None, pen_max_goalie_dist_x=None, pen_coach_moves_players=None, module_dir=None, ball_stuck_area=None, coach_msg_file=None, max_tackle_power=None, max_back_tackle_power=None, player_speed_max_min=None, extra_stamina=None, synch_see_offset=None, extra_half_time=None, stamina_capacity=None, max_dash_angle=None, min_dash_angle=None, dash_angle_step=None, side_dash_rate=None, back_dash_rate=None, max_dash_power=None, min_dash_power=None, tackle_rand_factor=None, foul_detect_probability=None, foul_exponent=None, foul_cycles=None, golden_goal=None, red_card_probability=None, illegal_defense_duration=None, illegal_defense_number=None, illegal_defense_dist_x=None, illegal_defense_width=None, fixed_teamname_l=None, fixed_teamname_r=None, max_catch_angle=None, min_catch_angle=None, random_seed=None, long_kick_power_factor=None, long_kick_delay=None, max_monitors=None, catchable_area=None, real_speed_max=None, pitch_half_length=None, pitch_half_width=None, our_penalty_area_line_x=None, their_penalty_area_line_x=None, penalty_area_half_width=None, penalty_area_length=None, goal_width=None, register_response=None,):
-        self.agent_type = agent_type
+    def __init__(self, register_response=None, inertia_moment=None, player_size=None, player_decay=None, player_rand=None, player_weight=None, player_speed_max=None, player_accel_max=None, stamina_max=None, stamina_inc_max=None, recover_init=None, recover_dec_thr=None, recover_min=None, recover_dec=None, effort_init=None, effort_dec_thr=None, effort_min=None, effort_dec=None, effort_inc_thr=None, effort_inc=None, kick_rand=None, team_actuator_noise=None, player_rand_factor_l=None, player_rand_factor_r=None, kick_rand_factor_l=None, kick_rand_factor_r=None, ball_size=None, ball_decay=None, ball_rand=None, ball_weight=None, ball_speed_max=None, ball_accel_max=None, dash_power_rate=None, kick_power_rate=None, kickable_margin=None, control_radius=None, control_radius_width=None, max_power=None, min_power=None, max_moment=None, min_moment=None, max_neck_moment=None, min_neck_moment=None, max_neck_angle=None, min_neck_angle=None, visible_angle=None, visible_distance=None, wind_dir=None, wind_force=None, wind_angle=None, wind_rand=None, kickable_area=None, catch_area_l=None, catch_area_w=None, catch_probability=None, goalie_max_moves=None, corner_kick_margin=None, offside_active_area_size=None, wind_none=None, use_wind_random=None, coach_say_count_max=None, coach_say_msg_size=None, clang_win_size=None, clang_define_win=None, clang_meta_win=None, clang_advice_win=None, clang_info_win=None, clang_mess_delay=None, clang_mess_per_cycle=None, half_time=None, simulator_step=None, send_step=None, recv_step=None, sense_body_step=None, lcm_step=None, player_say_msg_size=None, player_hear_max=None, player_hear_inc=None, player_hear_decay=None, catch_ban_cycle=None, slow_down_factor=None, use_offside=None, kickoff_offside=None, offside_kick_margin=None, audio_cut_dist=None, dist_quantize_step=None, landmark_dist_quantize_step=None, dir_quantize_step=None, dist_quantize_step_l=None, dist_quantize_step_r=None, landmark_dist_quantize_step_l=None, landmark_dist_quantize_step_r=None, dir_quantize_step_l=None, dir_quantize_step_r=None, coach_mode=None, coach_with_referee_mode=None, use_old_coach_hear=None, slowness_on_top_for_left_team=None, slowness_on_top_for_right_team=None, start_goal_l=None, start_goal_r=None, fullstate_l=None, fullstate_r=None, drop_ball_time=None, synch_mode=None, synch_offset=None, synch_micro_sleep=None, point_to_ban=None, point_to_duration=None, player_port=None, trainer_port=None, online_coach_port=None, verbose_mode=None, coach_send_vi_step=None, replay_file=None, landmark_file=None, send_comms=None, text_logging=None, game_logging=None, game_log_version=None, text_log_dir=None, game_log_dir=None, text_log_fixed_name=None, game_log_fixed_name=None, use_text_log_fixed=None, use_game_log_fixed=None, use_text_log_dated=None, use_game_log_dated=None, log_date_format=None, log_times=None, record_message=None, text_log_compression=None, game_log_compression=None, use_profile=None, tackle_dist=None, tackle_back_dist=None, tackle_width=None, tackle_exponent=None, tackle_cycles=None, tackle_power_rate=None, freeform_wait_period=None, freeform_send_period=None, free_kick_faults=None, back_passes=None, proper_goal_kicks=None, stopped_ball_vel=None, max_goal_kicks=None, clang_del_win=None, clang_rule_win=None, auto_mode=None, kick_off_wait=None, connect_wait=None, game_over_wait=None, team_l_start=None, team_r_start=None, keepaway_mode=None, keepaway_length=None, keepaway_width=None, keepaway_logging=None, keepaway_log_dir=None, keepaway_log_fixed_name=None, keepaway_log_fixed=None, keepaway_log_dated=None, keepaway_start=None, nr_normal_halfs=None, nr_extra_halfs=None, penalty_shoot_outs=None, pen_before_setup_wait=None, pen_setup_wait=None, pen_ready_wait=None, pen_taken_wait=None, pen_nr_kicks=None, pen_max_extra_kicks=None, pen_dist_x=None, pen_random_winner=None, pen_allow_mult_kicks=None, pen_max_goalie_dist_x=None, pen_coach_moves_players=None, module_dir=None, ball_stuck_area=None, coach_msg_file=None, max_tackle_power=None, max_back_tackle_power=None, player_speed_max_min=None, extra_stamina=None, synch_see_offset=None, extra_half_time=None, stamina_capacity=None, max_dash_angle=None, min_dash_angle=None, dash_angle_step=None, side_dash_rate=None, back_dash_rate=None, max_dash_power=None, min_dash_power=None, tackle_rand_factor=None, foul_detect_probability=None, foul_exponent=None, foul_cycles=None, golden_goal=None, red_card_probability=None, illegal_defense_duration=None, illegal_defense_number=None, illegal_defense_dist_x=None, illegal_defense_width=None, fixed_teamname_l=None, fixed_teamname_r=None, max_catch_angle=None, min_catch_angle=None, random_seed=None, long_kick_power_factor=None, long_kick_delay=None, max_monitors=None, catchable_area=None, real_speed_max=None, pitch_half_length=None, pitch_half_width=None, our_penalty_area_line_x=None, their_penalty_area_line_x=None, penalty_area_half_width=None, penalty_area_length=None, goal_width=None,):
+        self.register_response = register_response
         self.inertia_moment = inertia_moment
         self.player_size = player_size
         self.player_decay = player_decay
@@ -11314,7 +11291,6 @@ class ServerParam(object):
         self.penalty_area_half_width = penalty_area_half_width
         self.penalty_area_length = penalty_area_length
         self.goal_width = goal_width
-        self.register_response = register_response
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -11326,8 +11302,9 @@ class ServerParam(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.agent_type = iprot.readI32()
+                if ftype == TType.STRUCT:
+                    self.register_response = RegisterResponse()
+                    self.register_response.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -12435,12 +12412,6 @@ class ServerParam(object):
                     self.goal_width = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
-            elif fid == 223:
-                if ftype == TType.STRUCT:
-                    self.register_response = RegisterResponse()
-                    self.register_response.read(iprot)
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -12451,9 +12422,9 @@ class ServerParam(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('ServerParam')
-        if self.agent_type is not None:
-            oprot.writeFieldBegin('agent_type', TType.I32, 1)
-            oprot.writeI32(self.agent_type)
+        if self.register_response is not None:
+            oprot.writeFieldBegin('register_response', TType.STRUCT, 1)
+            self.register_response.write(oprot)
             oprot.writeFieldEnd()
         if self.inertia_moment is not None:
             oprot.writeFieldBegin('inertia_moment', TType.DOUBLE, 2)
@@ -13339,10 +13310,6 @@ class ServerParam(object):
             oprot.writeFieldBegin('goal_width', TType.DOUBLE, 222)
             oprot.writeDouble(self.goal_width)
             oprot.writeFieldEnd()
-        if self.register_response is not None:
-            oprot.writeFieldBegin('register_response', TType.STRUCT, 223)
-            self.register_response.write(oprot)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -13364,7 +13331,7 @@ class ServerParam(object):
 class PlayerParam(object):
     """
     Attributes:
-     - agent_type
+     - register_response
      - player_types
      - subs_max
      - pt_max
@@ -13394,13 +13361,12 @@ class PlayerParam(object):
      - foul_detect_probability_delta_factor
      - catchable_area_l_stretch_min
      - catchable_area_l_stretch_max
-     - register_response
 
     """
 
 
-    def __init__(self, agent_type=None, player_types=None, subs_max=None, pt_max=None, allow_mult_default_type=None, player_speed_max_delta_min=None, player_speed_max_delta_max=None, stamina_inc_max_delta_factor=None, player_decay_delta_min=None, player_decay_delta_max=None, inertia_moment_delta_factor=None, dash_power_rate_delta_min=None, dash_power_rate_delta_max=None, player_size_delta_factor=None, kickable_margin_delta_min=None, kickable_margin_delta_max=None, kick_rand_delta_factor=None, extra_stamina_delta_min=None, extra_stamina_delta_max=None, effort_max_delta_factor=None, effort_min_delta_factor=None, random_seed=None, new_dash_power_rate_delta_min=None, new_dash_power_rate_delta_max=None, new_stamina_inc_max_delta_factor=None, kick_power_rate_delta_min=None, kick_power_rate_delta_max=None, foul_detect_probability_delta_factor=None, catchable_area_l_stretch_min=None, catchable_area_l_stretch_max=None, register_response=None,):
-        self.agent_type = agent_type
+    def __init__(self, register_response=None, player_types=None, subs_max=None, pt_max=None, allow_mult_default_type=None, player_speed_max_delta_min=None, player_speed_max_delta_max=None, stamina_inc_max_delta_factor=None, player_decay_delta_min=None, player_decay_delta_max=None, inertia_moment_delta_factor=None, dash_power_rate_delta_min=None, dash_power_rate_delta_max=None, player_size_delta_factor=None, kickable_margin_delta_min=None, kickable_margin_delta_max=None, kick_rand_delta_factor=None, extra_stamina_delta_min=None, extra_stamina_delta_max=None, effort_max_delta_factor=None, effort_min_delta_factor=None, random_seed=None, new_dash_power_rate_delta_min=None, new_dash_power_rate_delta_max=None, new_stamina_inc_max_delta_factor=None, kick_power_rate_delta_min=None, kick_power_rate_delta_max=None, foul_detect_probability_delta_factor=None, catchable_area_l_stretch_min=None, catchable_area_l_stretch_max=None,):
+        self.register_response = register_response
         self.player_types = player_types
         self.subs_max = subs_max
         self.pt_max = pt_max
@@ -13430,7 +13396,6 @@ class PlayerParam(object):
         self.foul_detect_probability_delta_factor = foul_detect_probability_delta_factor
         self.catchable_area_l_stretch_min = catchable_area_l_stretch_min
         self.catchable_area_l_stretch_max = catchable_area_l_stretch_max
-        self.register_response = register_response
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -13442,8 +13407,9 @@ class PlayerParam(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.agent_type = iprot.readI32()
+                if ftype == TType.STRUCT:
+                    self.register_response = RegisterResponse()
+                    self.register_response.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -13591,12 +13557,6 @@ class PlayerParam(object):
                     self.catchable_area_l_stretch_max = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
-            elif fid == 31:
-                if ftype == TType.STRUCT:
-                    self.register_response = RegisterResponse()
-                    self.register_response.read(iprot)
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -13607,9 +13567,9 @@ class PlayerParam(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('PlayerParam')
-        if self.agent_type is not None:
-            oprot.writeFieldBegin('agent_type', TType.I32, 1)
-            oprot.writeI32(self.agent_type)
+        if self.register_response is not None:
+            oprot.writeFieldBegin('register_response', TType.STRUCT, 1)
+            self.register_response.write(oprot)
             oprot.writeFieldEnd()
         if self.player_types is not None:
             oprot.writeFieldBegin('player_types', TType.I32, 2)
@@ -13727,10 +13687,6 @@ class PlayerParam(object):
             oprot.writeFieldBegin('catchable_area_l_stretch_max', TType.DOUBLE, 30)
             oprot.writeDouble(self.catchable_area_l_stretch_max)
             oprot.writeFieldEnd()
-        if self.register_response is not None:
-            oprot.writeFieldBegin('register_response', TType.STRUCT, 31)
-            self.register_response.write(oprot)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -13752,7 +13708,7 @@ class PlayerParam(object):
 class PlayerType(object):
     """
     Attributes:
-     - agent_type
+     - register_response
      - id
      - stamina_inc_max
      - player_decay
@@ -13786,13 +13742,12 @@ class PlayerType(object):
      - real_speed_max2
      - cycles_to_reach_max_speed
      - player_speed_max
-     - register_response
 
     """
 
 
-    def __init__(self, agent_type=None, id=None, stamina_inc_max=None, player_decay=None, inertia_moment=None, dash_power_rate=None, player_size=None, kickable_margin=None, kick_rand=None, extra_stamina=None, effort_max=None, effort_min=None, kick_power_rate=None, foul_detect_probability=None, catchable_area_l_stretch=None, unum_far_length=None, unum_too_far_length=None, team_far_length=None, team_too_far_length=None, player_max_observation_length=None, ball_vel_far_length=None, ball_vel_too_far_length=None, ball_max_observation_length=None, flag_chg_far_length=None, flag_chg_too_far_length=None, flag_max_observation_length=None, kickable_area=None, reliable_catchable_dist=None, max_catchable_dist=None, real_speed_max=None, player_speed_max2=None, real_speed_max2=None, cycles_to_reach_max_speed=None, player_speed_max=None, register_response=None,):
-        self.agent_type = agent_type
+    def __init__(self, register_response=None, id=None, stamina_inc_max=None, player_decay=None, inertia_moment=None, dash_power_rate=None, player_size=None, kickable_margin=None, kick_rand=None, extra_stamina=None, effort_max=None, effort_min=None, kick_power_rate=None, foul_detect_probability=None, catchable_area_l_stretch=None, unum_far_length=None, unum_too_far_length=None, team_far_length=None, team_too_far_length=None, player_max_observation_length=None, ball_vel_far_length=None, ball_vel_too_far_length=None, ball_max_observation_length=None, flag_chg_far_length=None, flag_chg_too_far_length=None, flag_max_observation_length=None, kickable_area=None, reliable_catchable_dist=None, max_catchable_dist=None, real_speed_max=None, player_speed_max2=None, real_speed_max2=None, cycles_to_reach_max_speed=None, player_speed_max=None,):
+        self.register_response = register_response
         self.id = id
         self.stamina_inc_max = stamina_inc_max
         self.player_decay = player_decay
@@ -13826,7 +13781,6 @@ class PlayerType(object):
         self.real_speed_max2 = real_speed_max2
         self.cycles_to_reach_max_speed = cycles_to_reach_max_speed
         self.player_speed_max = player_speed_max
-        self.register_response = register_response
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -13838,8 +13792,9 @@ class PlayerType(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.agent_type = iprot.readI32()
+                if ftype == TType.STRUCT:
+                    self.register_response = RegisterResponse()
+                    self.register_response.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -14007,12 +13962,6 @@ class PlayerType(object):
                     self.player_speed_max = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
-            elif fid == 35:
-                if ftype == TType.STRUCT:
-                    self.register_response = RegisterResponse()
-                    self.register_response.read(iprot)
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -14023,9 +13972,9 @@ class PlayerType(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('PlayerType')
-        if self.agent_type is not None:
-            oprot.writeFieldBegin('agent_type', TType.I32, 1)
-            oprot.writeI32(self.agent_type)
+        if self.register_response is not None:
+            oprot.writeFieldBegin('register_response', TType.STRUCT, 1)
+            self.register_response.write(oprot)
             oprot.writeFieldEnd()
         if self.id is not None:
             oprot.writeFieldBegin('id', TType.I32, 2)
@@ -14158,10 +14107,6 @@ class PlayerType(object):
         if self.player_speed_max is not None:
             oprot.writeFieldBegin('player_speed_max', TType.DOUBLE, 34)
             oprot.writeDouble(self.player_speed_max)
-            oprot.writeFieldEnd()
-        if self.register_response is not None:
-            oprot.writeFieldBegin('register_response', TType.STRUCT, 35)
-            self.register_response.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -14404,16 +14349,14 @@ all_structs.append(State)
 State.thrift_spec = (
     None,  # 0
     (1, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 1
-    (2, TType.I32, 'agent_type', None, None, ),  # 2
-    (3, TType.STRUCT, 'world_model', [WorldModel, None], None, ),  # 3
-    (4, TType.STRUCT, 'full_world_model', [WorldModel, None], None, ),  # 4
+    (2, TType.STRUCT, 'world_model', [WorldModel, None], None, ),  # 2
+    (3, TType.STRUCT, 'full_world_model', [WorldModel, None], None, ),  # 3
 )
 all_structs.append(InitMessage)
 InitMessage.thrift_spec = (
     None,  # 0
     (1, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 1
-    (2, TType.I32, 'agent_type', None, None, ),  # 2
-    (3, TType.BOOL, 'debug_mode', None, None, ),  # 3
+    (2, TType.BOOL, 'debug_mode', None, None, ),  # 2
 )
 all_structs.append(Dash)
 Dash.thrift_spec = (
@@ -15123,7 +15066,7 @@ TrainerActions.thrift_spec = (
 all_structs.append(ServerParam)
 ServerParam.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'agent_type', None, None, ),  # 1
+    (1, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 1
     (2, TType.DOUBLE, 'inertia_moment', None, None, ),  # 2
     (3, TType.DOUBLE, 'player_size', None, None, ),  # 3
     (4, TType.DOUBLE, 'player_decay', None, None, ),  # 4
@@ -15345,12 +15288,11 @@ ServerParam.thrift_spec = (
     (220, TType.DOUBLE, 'penalty_area_half_width', None, None, ),  # 220
     (221, TType.DOUBLE, 'penalty_area_length', None, None, ),  # 221
     (222, TType.DOUBLE, 'goal_width', None, None, ),  # 222
-    (223, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 223
 )
 all_structs.append(PlayerParam)
 PlayerParam.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'agent_type', None, None, ),  # 1
+    (1, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 1
     (2, TType.I32, 'player_types', None, None, ),  # 2
     (3, TType.I32, 'subs_max', None, None, ),  # 3
     (4, TType.I32, 'pt_max', None, None, ),  # 4
@@ -15380,12 +15322,11 @@ PlayerParam.thrift_spec = (
     (28, TType.DOUBLE, 'foul_detect_probability_delta_factor', None, None, ),  # 28
     (29, TType.DOUBLE, 'catchable_area_l_stretch_min', None, None, ),  # 29
     (30, TType.DOUBLE, 'catchable_area_l_stretch_max', None, None, ),  # 30
-    (31, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 31
 )
 all_structs.append(PlayerType)
 PlayerType.thrift_spec = (
     None,  # 0
-    (1, TType.I32, 'agent_type', None, None, ),  # 1
+    (1, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 1
     (2, TType.I32, 'id', None, None, ),  # 2
     (3, TType.DOUBLE, 'stamina_inc_max', None, None, ),  # 3
     (4, TType.DOUBLE, 'player_decay', None, None, ),  # 4
@@ -15419,7 +15360,6 @@ PlayerType.thrift_spec = (
     (32, TType.DOUBLE, 'real_speed_max2', None, None, ),  # 32
     (33, TType.I32, 'cycles_to_reach_max_speed', None, None, ),  # 33
     (34, TType.DOUBLE, 'player_speed_max', None, None, ),  # 34
-    (35, TType.STRUCT, 'register_response', [RegisterResponse, None], None, ),  # 35
 )
 all_structs.append(Empty)
 Empty.thrift_spec = (
