@@ -1,7 +1,7 @@
 from thrift.protocol import TBinaryProtocol
 from thrift.transport import TSocket, TTransport
 from soccer import Game
-from soccer.ttypes import State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
+from soccer.ttypes import DoChangeMode, DoMovePlayer, State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
 from soccer.ttypes import ServerParam, PlayerParam, PlayerType, InitMessage, RegisterRequest, RegisterResponse, AgentType
 from soccer.ttypes import HeliosChainAction, HeliosBasicMove, HeliosGoalie, HeliosSetPlay
 from soccer.ttypes import DoMoveBall, RpcVector2D, TrainerAction
@@ -13,6 +13,7 @@ from typing import Union
 from threading import Semaphore
 from multiprocessing import Manager, Lock
 import logging
+from pyrusgeom.vector_2d import Vector2D
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -61,20 +62,37 @@ class GameHandler:
     def GetTrainerActions(self, state: State):
         logging.debug(f"GetTrainerActions trainer at {state.world_model.cycle}")
         actions = []
-        actions.append(
-            TrainerAction(
-                do_move_ball=DoMoveBall(
+        if state.world_model.cycle % 100 == 99:
+            logging.debug(f"Trainer at cycle {state.world_model.cycle}")
+            if len(state.world_model.teammates) == 0:
+                return TrainerActions()
+            player = state.world_model.teammates[0]
+            p = Vector2D(player.position.x, player.position.y)
+            p = p + Vector2D(10, 10)
+            actions = [
+                TrainerAction(
+                    do_move_ball=DoMoveBall(
+                        position=RpcVector2D(
+                            x=p.x(),
+                            y=p.y()
+                        ),
+                        velocity=RpcVector2D(
+                            x=0,
+                            y=0
+                        ),
+                    )
+                ),
+                TrainerAction(do_move_player=DoMovePlayer(
+                    our_side=True,
+                    uniform_number=player.uniform_number,
                     position=RpcVector2D(
-                        x=0,
-                        y=0
+                        x=p.x(),
+                        y=p.y()
                     ),
-                    velocity=RpcVector2D(
-                        x=0,
-                        y=0
-                    ),
-                )
-            )
-        )
+                    body_direction=0.,
+                )),
+                TrainerAction(do_change_mode=DoChangeMode(game_mode_type=GameModeType.PlayOn))
+            ]
         return TrainerActions(actions=actions)
 
     def SendServerParams(self, serverParams: ServerParam):
