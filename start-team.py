@@ -47,7 +47,7 @@ if __name__ == "__main__":
     # Set up argument parsing
     parser = argparse.ArgumentParser(description='Run server and team scripts.')
     parser.add_argument('-t', '--team_name', required=False, help='The name of the team', default='CLS')
-    parser.add_argument('--g-port', required=False, help='The port of the server', default=50051)
+    parser.add_argument('--g-port', required=False, help='The port of the server', default='50051')
     args = parser.parse_args()
 
     try:
