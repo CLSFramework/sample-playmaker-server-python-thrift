@@ -14,6 +14,8 @@ from threading import Semaphore
 from multiprocessing import Manager, Lock
 import logging
 from pyrusgeom.vector_2d import Vector2D
+import argparse
+
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -161,4 +163,7 @@ def serve(port):
 
 
 if __name__ == '__main__':
-    serve(50051)
+    parser = argparse.ArgumentParser(description='Run play maker server')
+    parser.add_argument('-p', '--g-port', required=False, help='The port of the server', default=50051)
+    args = parser.parse_args()
+    serve(args.g_port)
