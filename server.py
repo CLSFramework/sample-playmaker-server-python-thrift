@@ -19,17 +19,15 @@ import argparse
 
 logging.basicConfig(level=logging.DEBUG)
 
-manager = Manager()
-shared_lock = Lock()  # Create a Lock for synchronization
-shared_number_of_connections = manager.Value('i', 0)
-
 
 class GameHandler:
-    def __init__(self):
+    def __init__(self, shared_lock, shared_number_of_connections):
         self.server_params: Union[ServerParam, None] = None
         self.player_params: Union[PlayerParam, None] = None
         self.player_types: dict[int, PlayerType] = {}
         self.debug_mode: bool = False
+        self.shared_lock = shared_lock
+        self.shared_number_of_connections = shared_number_of_connections
 
     def GetPlayerActions(self, state: State):
         logging.debug(f"GetPlayerActions unum {state.register_response.uniform_number} at {state.world_model.cycle}")
@@ -125,13 +123,13 @@ class GameHandler:
         logging.debug(f"received register request from team_name: {register_request.team_name} "
                       f"unum: {register_request.uniform_number} "
                       f"agent_type: {register_request.agent_type}")
-        with shared_lock:
-            shared_number_of_connections.value += 1
-            logging.debug(f"Number of connections {shared_number_of_connections.value}")
+        with self.shared_lock:
+            self.shared_number_of_connections.value += 1
+            logging.debug(f"Number of connections {self.shared_number_of_connections.value}")
             team_name = register_request.team_name
             uniform_number = register_request.uniform_number
             agent_type = register_request.agent_type
-            res = RegisterResponse(client_id=shared_number_of_connections.value,
+            res = RegisterResponse(client_id=self.shared_number_of_connections.value,
                                    team_name=team_name,
                                    uniform_number=uniform_number,
                                    agent_type=agent_type)
@@ -139,13 +137,13 @@ class GameHandler:
 
     def SendByeCommand(self, register_response: RegisterResponse):
         logging.debug(f"Bye command received unum {register_response.uniform_number}")
-        with shared_lock:
+        with self.shared_lock:
             pass
         res = Empty()
         return res
 
-def serve(port):
-    handler = GameHandler()
+def serve(port, shared_lock, shared_number_of_connections):
+    handler = GameHandler(shared_lock, shared_number_of_connections)
     processor = Game.Processor(handler)
     transport = TSocket.TServerSocket(host='0.0.0.0', port=port)
     tfactory = TTransport.TBufferedTransportFactory()
@@ -162,8 +160,16 @@ def serve(port):
         print("Stopping server")
 
 
-if __name__ == '__main__':
+def main():
+    manager = Manager()
+    shared_lock = Lock()  # Create a Lock for synchronization
+    shared_number_of_connections = manager.Value('i', 0)
     parser = argparse.ArgumentParser(description='Run play maker server')
     parser.add_argument('-p', '--rpc-port', required=False, help='The port of the server', default=50051)
     args = parser.parse_args()
-    serve(args.rpc_port)
+    serve(args.rpc_port, shared_lock, shared_number_of_connections)
+    
+    
+if __name__ == '__main__':
+    main()
+    
