@@ -264,11 +264,12 @@ class WorldModel(object):
     helios_home_positions: Dict[int, RpcVector2D]
 
 class State(object):
-    def __init__(self, register_response: RegisterResponse = None, world_model: WorldModel = None, full_world_model: WorldModel = None):
+    def __init__(self, register_response: RegisterResponse = None, world_model: WorldModel = None, full_world_model: WorldModel = None, need_preprocess: bool = None):
         pass
     register_response: RegisterResponse
     world_model: WorldModel
     full_world_model: WorldModel
+    need_preprocess: bool
 
 class InitMessage(object):
     def __init__(self, register_response: RegisterResponse = None, debug_mode: bool = None):
@@ -959,9 +960,10 @@ class PlayerAction(object):
     helios_communication: HeliosCommunicaion
 
 class PlayerActions(object):
-    def __init__(self, actions: List[PlayerAction] = None):
+    def __init__(self, actions: List[PlayerAction] = None, ignore_preprocess: bool = None):
         pass
     actions: List[PlayerAction]
+    ignore_preprocess: bool
 
 class ChangePlayerType(object):
     def __init__(self, uniform_number: int = None, type: int = None):
