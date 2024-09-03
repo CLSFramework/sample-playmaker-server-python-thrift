@@ -20,7 +20,7 @@ To learn more about the Cross Language Soccer Framework, visit the [official rep
 
 ## Preparation
 
-To run a soccer simulation 2D game using the CLSF, you need to have RCSSServer, SoccerSimulationProxy, and Monitor to show the game.
+To run a Soccer Simulation 2D game using the CLSF, you need to have RCSSServer, SoccerSimulationProxy, and Monitor to visualize the game.
 
 ### RCSSServer
 To download the latest AppImage of the RCSSServer,  you can run the following command:
@@ -69,7 +69,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Running the Sample Server
+## Running a game
+
+To run a game, you need to run the RCSSServer, Monitor, and then the SoccerSimulationProxy and the sample server.
+
+### Running the RCSSServer
+if you have downloaded the RCSSServer AppImage, you can run it by running the following command:
+
+```bash
+cd scripts/rcssserver
+./rcssserver
+```
+
+Otherwise, you built and install the RCSSServer from the source code, you can run the server by running the following command:
+
+```bash
+rcssserver
+```
+
+## Running the Sample Server and Proxy
 
 There are three different ways to run the sample server:
 
@@ -77,7 +95,7 @@ There are three different ways to run the sample server:
 - Using start-team.sh
 - Running the server and client separately
 
-### Using start-team.py
+### Using start-team.py (This script can be used in Linux)
 
 Note: To use this script you need to download the proxy by using `scripts/download-proxy.sh`.
 
@@ -91,7 +109,7 @@ You can pass the following arguments to the script:
 - `--team-name`: The name of the team (default: `CLSF`)
 - `--rpc-port`: The port number for the RPC server (default: `50051`)
 
-### Using start-team.sh
+### Using start-team.sh (This script can be used in Linux)
 
 Note: To use this script you need to download the proxy by using `scripts/download-proxy.sh`.
 
@@ -105,4 +123,25 @@ You can pass the following arguments to the script:
 - `--team-name`: The name of the team (default: `CLSF`)
 - `--rpc-port`: The port number for the RPC server (default: `50051`)
 
-### Running the server and client separately
+### Running the server and client separately (This method can be used in Windows and Linux, but the proxy can only be run in Linux)
+
+To run the server, you can run the following command:
+
+```bash
+python server.py
+```
+
+You can pass the following arguments to the server:
+- `--rpc-port`: The port number for the RPC server (default: `50051`)
+
+If you want to run the proxy agents, you can run the following command:
+
+```bash
+cd scripts/proxy
+./start.sh
+```
+
+To learn more about the Soccer Simulation Proxy, arguments you can pass, and how to run it, build it from source, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
+
+#### Running the playmaker server in Windows
+If you want to run the playmaker server in Windows, you need to somehow connect the proxy to the playmaker server. You can find ip of your local machine(Windows) and use it in the proxy.
