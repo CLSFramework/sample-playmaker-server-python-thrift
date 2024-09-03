@@ -1,7 +1,7 @@
 from thrift.protocol import TBinaryProtocol
 from thrift.transport import TSocket, TTransport
 from soccer import Game
-from soccer.ttypes import DoChangeMode, DoMovePlayer, State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
+from soccer.ttypes import Body_GoToPoint, DoChangeMode, DoMovePlayer, State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
 from soccer.ttypes import ServerParam, PlayerParam, PlayerType, InitMessage, RegisterRequest, RegisterResponse, AgentType
 from soccer.ttypes import HeliosChainAction, HeliosBasicMove, HeliosGoalie, HeliosSetPlay
 from soccer.ttypes import DoMoveBall, RpcVector2D, TrainerAction
