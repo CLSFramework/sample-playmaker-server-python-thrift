@@ -14,13 +14,7 @@ Also, you can find some scripts to download the RCSSServer, SoccerSimulationProx
 
 To learn more about the Cross Language Soccer Framework, visit the [official repository](https://github.com/CLSFramework/cross-language-soccer-framework/wiki)
 
-![image](https://github.com/user-attachments/assets/0c22d0e5-a1ad-4a43-8cba-a9fc70c6ed5b)
-
-![image](https://github.com/Cross-Language-Soccer-Framework/cross-language-soccer-framework/assets/25696836/7b0b1d49-7001-479c-889f-46a96a8802c4)
-
-![image](https://github.com/user-attachments/assets/b4484095-0913-4434-bf1f-35f11e8bf629)
-
-![image](https://github.com/user-attachments/assets/bc1b9c86-f772-4df8-a420-438e363c59b5)
+![cls](https://github.com/user-attachments/assets/4daee216-1479-4acd-88f2-9e772b8c7837)
 
 ## Preparation
 
