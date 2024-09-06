@@ -10,7 +10,7 @@ This flexibility enables you to develop your team in any programming language of
 
 This repository provides a sample server implemented in Python using Thrift. You can use this server as a starting point to develop and customize your own team.
 
-Also, you can find some scripts to download the RCSSServer, SoccerSimulationProxy, and run the sample server and proxy.
+Also, you can find some scripts to download the RCSSServer, SoccerSimulationProxy, and run the sample server and proxy. To use this framework, you need to have Ubuntu or WSL.
 
 To learn more about the Cross Language Soccer Framework, visit the [official repository](https://github.com/CLSFramework/cross-language-soccer-framework/wiki)
 
@@ -28,13 +28,17 @@ cd scripts
 ./download-rcssserver.sh
 ```
 
-Note: You can build the RCSSServer from the source code. For more information, visit the [official repository](https://github.com/rcsoccersim/rcssserver).
-
 To run the RCSSServer AppImage, you need to install FUSE. You can install it by running the following command:
 
 ```bash
 sudo apt-get install fuse
 ```
+
+<u>Notes:</u>
+- You can build the RCSSServer from the source code. For more information, visit the [official repository](https://github.com/rcsoccersim/rcssserver).
+- The RCSSServer should be run on <u>Linux (preferably Ubuntu) or WSL</u>.
+
+
 
 ### SoccerSimulationProxy
 
@@ -45,17 +49,25 @@ cd scripts
 ./download-proxy.sh
 ```
 
-Note: You can build the SoccerSimulationProxy from the source code. For more information, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
-
 To run the SoccerSimulationProxy AppImage, you need to install FUSE. You can install it by running the following command:
 
 ```bash
 sudo apt-get install fuse
 ```
 
+<u>Notes:</u>
+- You can build the SoccerSimulationProxy from the source code. For more information, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
+- The SoccerSimulationProxy should be run on <u>Linux (preferably Ubuntu) or WSL</u>.
+
 ### Monitor
 
 To download the latest AppImage of the Monitor, you can download it from the [official repository](https://github.com/rcsoccersim/rcssmonitor/releases).
+
+To run the monitor, you need to install FUSE. You can install it by running the following command:
+
+```bash
+sudo apt-get install fuse
+```
 
 ### Create Python Virtual Environment and Install Dependencies
 
@@ -85,8 +97,6 @@ Otherwise, you built and install the RCSSServer from the source code, you can ru
 rcssserver
 ```
 
-Note: RCSSServer should be run on Linux (preferably Ubuntu) or WSL.
-
 ## Running the Sample Server and Proxy
 
 There are three different ways to run the sample server:
@@ -95,7 +105,7 @@ There are three different ways to run the sample server:
 - Using start-team.sh
 - Running the server and client separately
 
-### Using start-team.py (This script can be used in Linux)
+### Using start-team.py (This script can be used in Ubuntu or WSL)
 
 Note: To use this script you need to download the proxy by using `scripts/download-proxy.sh`.
 
@@ -145,8 +155,9 @@ cd scripts/proxy
 
 To learn more about the Soccer Simulation Proxy, arguments you can pass, and how to run it, build it from source, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
 
-#### Running the playmaker server in Windows
+#### Running the playmaker server in Windows (Not recommended)
 If you want to run the playmaker server in Windows, you need to somehow connect the proxy to the playmaker server. You can find ip of your local machine(Windows) and use it in the proxy.
+<u>Right now due to some issues with Python multiprocessing, the playmaker server can't be run in Windows.</u>
 
 ## How does it work?
 Berifly, the Soccer Simulation 2D server sends the observations to the proxy, which forwards them to the playmaker server. The playmaker server processes the observations and sends the actions back to the proxy, which forwards them to the Soccer Simulation 2D server.
