@@ -2,7 +2,7 @@ from thrift.protocol import TBinaryProtocol
 from thrift.transport import TSocket, TTransport
 from soccer import Game
 from soccer.ttypes import Body_GoToPoint, DoChangeMode, DoMovePlayer, State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
-from soccer.ttypes import ServerParam, PlayerParam, PlayerType, InitMessage, RegisterRequest, RegisterResponse, AgentType
+from soccer.ttypes import ServerParam, PlayerParam, PlayerType, InitMessage, RegisterRequest, RegisterResponse, AgentType , RpcActionState, BestPlannerActionRequest , BestPlannerActionResponse
 from soccer.ttypes import HeliosOffensivePlanner, HeliosBasicMove, HeliosGoalie, HeliosSetPlay, HeliosShoot
 from soccer.ttypes import DoMoveBall, RpcVector2D, TrainerAction
 from soccer.ttypes import DoHeliosSubstitute, CoachAction
@@ -44,7 +44,8 @@ class GameHandler:
                                                                                             long_dribble=True,
                                                                                             simple_shoot=True,
                                                                                             simple_dribble=True,
-                                                                                            cross=True)))
+                                                                                            cross=True,
+                                                                                            server_side_decision=False)))
                 actions.append(PlayerAction(helios_shoot=HeliosShoot()))
             else:
                 actions.append(PlayerAction(helios_basic_move=HeliosBasicMove()))
@@ -141,6 +142,14 @@ class GameHandler:
         with self.shared_lock:
             pass
         res = Empty()
+        return res
+    def GetBestPlannerAction(self, pairs: BestPlannerActionRequest):
+        logging.debug(f"GetBestPlannerAction cycle:{pairs.state.world_model.cycle} pairs:{len(pairs.pairs)} unum:{pairs.register_response.uniform_number}")
+        pairs_list: list[int, RpcActionState] = [(k, v) for k, v in pairs.pairs.items()]
+        pairs_list.sort(key=lambda x: x[0])
+        best_action = max(pairs_list, key=lambda x: -1000 if x[1].action.parent_index != -1 else x[1].predict_state.ball_position.x)
+        logging.debug(f"Best action: {best_action[0]} {best_action[1].action.description} to {best_action[1].action.target_unum} in ({round(best_action[1].action.target_point.x, 2)},{round(best_action[1].action.target_point.y, 2)}) e:{round(best_action[1].evaluation,2)}")
+        res = BestPlannerActionResponse(index=best_action[0])
         return res
 
 def serve(port, shared_lock, shared_number_of_connections):
