@@ -3,7 +3,7 @@ from thrift.transport import TSocket, TTransport
 from soccer import Game
 from soccer.ttypes import Body_GoToPoint, DoChangeMode, DoMovePlayer, State, Empty, PlayerActions, CoachActions, TrainerActions, PlayerAction, GameModeType
 from soccer.ttypes import ServerParam, PlayerParam, PlayerType, InitMessage, RegisterRequest, RegisterResponse, AgentType
-from soccer.ttypes import HeliosChainAction, HeliosBasicMove, HeliosGoalie, HeliosSetPlay
+from soccer.ttypes import HeliosOffensivePlanner, HeliosBasicMove, HeliosGoalie, HeliosSetPlay, HeliosShoot
 from soccer.ttypes import DoMoveBall, RpcVector2D, TrainerAction
 from soccer.ttypes import DoHeliosSubstitute, CoachAction
 import os
@@ -36,15 +36,16 @@ class GameHandler:
             if state.world_model.myself.is_goalie:
                 actions.append(PlayerAction(helios_goalie=HeliosGoalie()))
             elif state.world_model.myself.is_kickable:
-                actions.append(PlayerAction(helios_chain_action=HeliosChainAction(lead_pass=True,
-                                                                                  direct_pass=True,
-                                                                                  through_pass=True,
-                                                                                  simple_pass=True,
-                                                                                  short_dribble=True,
-                                                                                  long_dribble=True,
-                                                                                  simple_shoot=True,
-                                                                                  simple_dribble=True,
-                                                                                  cross=True)))
+                actions.append(PlayerAction(helios_offensive_planner=HeliosOffensivePlanner(lead_pass=True,
+                                                                                            direct_pass=True,
+                                                                                            through_pass=True,
+                                                                                            simple_pass=True,
+                                                                                            short_dribble=True,
+                                                                                            long_dribble=True,
+                                                                                            simple_shoot=True,
+                                                                                            simple_dribble=True,
+                                                                                            cross=True)))
+                actions.append(PlayerAction(helios_shoot=HeliosShoot()))
             else:
                 actions.append(PlayerAction(helios_basic_move=HeliosBasicMove()))
         else:

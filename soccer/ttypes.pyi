@@ -85,6 +85,11 @@ class LoggerLevel(Enum):
     ACTION_CHAIN = auto()
     PLAN = auto()
 
+class CardType(Enum):
+    NO_CARD = auto()
+    YELLOW = auto()
+    RED = auto()
+
 class Player(object):
     def __init__(self, position: RpcVector2D = None, seen_position: RpcVector2D = None, heard_position: RpcVector2D = None, velocity: RpcVector2D = None, seen_velocity: RpcVector2D = None, pos_count: int = None, seen_pos_count: int = None, heard_pos_count: int = None, vel_count: int = None, seen_vel_count: int = None, ghost_count: int = None, dist_from_self: float = None, angle_from_self: float = None, id: int = None, side: Side = None, uniform_number: int = None, uniform_number_count: int = None, is_goalie: bool = None, body_direction: float = None, body_direction_count: int = None, face_direction: float = None, face_direction_count: int = None, point_to_direction: float = None, point_to_direction_count: int = None, is_kicking: bool = None, dist_from_ball: float = None, angle_from_ball: float = None, ball_reach_steps: int = None, is_tackling: bool = None, type_id: int = None):
         pass
@@ -120,7 +125,7 @@ class Player(object):
     type_id: int
 
 class Self(object):
-    def __init__(self, position: RpcVector2D = None, seen_position: RpcVector2D = None, heard_position: RpcVector2D = None, velocity: RpcVector2D = None, seen_velocity: RpcVector2D = None, pos_count: int = None, seen_pos_count: int = None, heard_pos_count: int = None, vel_count: int = None, seen_vel_count: int = None, ghost_count: int = None, id: int = None, side: Side = None, uniform_number: int = None, uniform_number_count: int = None, is_goalie: bool = None, body_direction: float = None, body_direction_count: int = None, face_direction: float = None, face_direction_count: int = None, point_to_direction: float = None, point_to_direction_count: int = None, is_kicking: bool = None, dist_from_ball: float = None, angle_from_ball: float = None, ball_reach_steps: int = None, is_tackling: bool = None, relative_neck_direction: float = None, stamina: float = None, is_kickable: bool = None, catch_probability: float = None, tackle_probability: float = None, foul_probability: float = None, view_width: ViewWidth = None, type_id: int = None, kick_rate: float = None):
+    def __init__(self, position: RpcVector2D = None, seen_position: RpcVector2D = None, heard_position: RpcVector2D = None, velocity: RpcVector2D = None, seen_velocity: RpcVector2D = None, pos_count: int = None, seen_pos_count: int = None, heard_pos_count: int = None, vel_count: int = None, seen_vel_count: int = None, ghost_count: int = None, id: int = None, side: Side = None, uniform_number: int = None, uniform_number_count: int = None, is_goalie: bool = None, body_direction: float = None, body_direction_count: int = None, face_direction: float = None, face_direction_count: int = None, point_to_direction: float = None, point_to_direction_count: int = None, is_kicking: bool = None, dist_from_ball: float = None, angle_from_ball: float = None, ball_reach_steps: int = None, is_tackling: bool = None, relative_neck_direction: float = None, stamina: float = None, is_kickable: bool = None, catch_probability: float = None, tackle_probability: float = None, foul_probability: float = None, view_width: ViewWidth = None, type_id: int = None, kick_rate: float = None, recovery: float = None, stamina_capacity: float = None, card: CardType = None):
         pass
     position: RpcVector2D
     seen_position: RpcVector2D
@@ -158,6 +163,9 @@ class Self(object):
     view_width: ViewWidth
     type_id: int
     kick_rate: float
+    recovery: float
+    stamina_capacity: float
+    card: CardType
 
 class InterceptActionType(Enum):
     UNKNOWN_Intercept_Action_Type = auto()
@@ -229,7 +237,7 @@ class GameModeType(Enum):
     MODE_MAX = auto()
 
 class WorldModel(object):
-    def __init__(self, intercept_table: InterceptTable = None, our_team_name: str = None, their_team_name: str = None, our_side: Side = None, last_set_play_start_time: int = None, myself: Self = None, ball: Ball = None, teammates: List[Player] = None, opponents: List[Player] = None, unknowns: List[Player] = None, our_players_dict: Dict[int, Player] = None, their_players_dict: Dict[int, Player] = None, our_goalie_uniform_number: int = None, their_goalie_uniform_number: int = None, offside_line_x: float = None, offside_line_x_count: int = None, kickable_teammate_id: int = None, kickable_opponent_id: int = None, last_kick_side: Side = None, last_kicker_uniform_number: int = None, cycle: int = None, game_mode_type: GameModeType = None, left_team_score: int = None, right_team_score: int = None, is_our_set_play: bool = None, is_their_set_play: bool = None, stoped_cycle: int = None, our_team_score: int = None, their_team_score: int = None, is_penalty_kick_mode: bool = None, helios_home_positions: Dict[int, RpcVector2D] = None):
+    def __init__(self, intercept_table: InterceptTable = None, our_team_name: str = None, their_team_name: str = None, our_side: Side = None, last_set_play_start_time: int = None, myself: Self = None, ball: Ball = None, teammates: List[Player] = None, opponents: List[Player] = None, unknowns: List[Player] = None, our_players_dict: Dict[int, Player] = None, their_players_dict: Dict[int, Player] = None, our_goalie_uniform_number: int = None, their_goalie_uniform_number: int = None, offside_line_x: float = None, offside_line_x_count: int = None, kickable_teammate_id: int = None, kickable_opponent_id: int = None, last_kick_side: Side = None, last_kicker_uniform_number: int = None, cycle: int = None, game_mode_type: GameModeType = None, left_team_score: int = None, right_team_score: int = None, is_our_set_play: bool = None, is_their_set_play: bool = None, stoped_cycle: int = None, our_team_score: int = None, their_team_score: int = None, is_penalty_kick_mode: bool = None, helios_home_positions: Dict[int, RpcVector2D] = None, our_defense_line_x: float = None, their_defense_line_x: float = None, our_defense_player_line_x: float = None, their_defense_player_line_x: float = None):
         pass
     intercept_table: InterceptTable
     our_team_name: str
@@ -262,6 +270,10 @@ class WorldModel(object):
     their_team_score: int
     is_penalty_kick_mode: bool
     helios_home_positions: Dict[int, RpcVector2D]
+    our_defense_line_x: float
+    their_defense_line_x: float
+    our_defense_player_line_x: float
+    their_defense_player_line_x: float
 
 class State(object):
     def __init__(self, register_response: RegisterResponse = None, world_model: WorldModel = None, full_world_model: WorldModel = None, need_preprocess: bool = None):
@@ -853,8 +865,8 @@ class HeliosShoot(object):
         pass
     pass
 
-class HeliosChainAction(object):
-    def __init__(self, direct_pass: bool = None, lead_pass: bool = None, through_pass: bool = None, short_dribble: bool = None, long_dribble: bool = None, cross: bool = None, simple_pass: bool = None, simple_dribble: bool = None, simple_shoot: bool = None):
+class HeliosOffensivePlanner(object):
+    def __init__(self, direct_pass: bool = None, lead_pass: bool = None, through_pass: bool = None, short_dribble: bool = None, long_dribble: bool = None, cross: bool = None, simple_pass: bool = None, simple_dribble: bool = None, simple_shoot: bool = None, server_side_decision: bool = None):
         pass
     direct_pass: bool
     lead_pass: bool
@@ -865,6 +877,7 @@ class HeliosChainAction(object):
     simple_pass: bool
     simple_dribble: bool
     simple_shoot: bool
+    server_side_decision: bool
 
 class HeliosBasicOffensive(object):
     def __init__(self, ):
@@ -892,7 +905,7 @@ class HeliosCommunicaion(object):
     pass
 
 class PlayerAction(object):
-    def __init__(self, dash: Dash = None, turn: Turn = None, kick: Kick = None, tackle: Tackle = None, catch_action: Catch = None, move: Move = None, turn_neck: TurnNeck = None, change_view: ChangeView = None, say: Say = None, point_to: PointTo = None, point_to_of: PointToOf = None, attention_to: AttentionTo = None, attention_to_of: AttentionToOf = None, log: Log = None, debug_client: DebugClient = None, body_go_to_point: Body_GoToPoint = None, body_smart_kick: Body_SmartKick = None, bhv_before_kick_off: Bhv_BeforeKickOff = None, bhv_body_neck_to_ball: Bhv_BodyNeckToBall = None, bhv_body_neck_to_point: Bhv_BodyNeckToPoint = None, bhv_emergency: Bhv_Emergency = None, bhv_go_to_point_look_ball: Bhv_GoToPointLookBall = None, bhv_neck_body_to_ball: Bhv_NeckBodyToBall = None, bhv_neck_body_to_point: Bhv_NeckBodyToPoint = None, bhv_scan_field: Bhv_ScanField = None, body_advance_ball: Body_AdvanceBall = None, body_clear_ball: Body_ClearBall = None, body_dribble: Body_Dribble = None, body_go_to_point_dodge: Body_GoToPointDodge = None, body_hold_ball: Body_HoldBall = None, body_intercept: Body_Intercept = None, body_kick_one_step: Body_KickOneStep = None, body_stop_ball: Body_StopBall = None, body_stop_dash: Body_StopDash = None, body_tackle_to_point: Body_TackleToPoint = None, body_turn_to_angle: Body_TurnToAngle = None, body_turn_to_ball: Body_TurnToBall = None, body_turn_to_point: Body_TurnToPoint = None, focus_move_to_point: Focus_MoveToPoint = None, focus_reset: Focus_Reset = None, neck_scan_field: Neck_ScanField = None, neck_scan_players: Neck_ScanPlayers = None, neck_turn_to_ball_and_player: Neck_TurnToBallAndPlayer = None, neck_turn_to_ball_or_scan: Neck_TurnToBallOrScan = None, neck_turn_to_ball: Neck_TurnToBall = None, neck_turn_to_goalie_or_scan: Neck_TurnToGoalieOrScan = None, neck_turn_to_low_conf_teammate: Neck_TurnToLowConfTeammate = None, neck_turn_to_player_or_scan: Neck_TurnToPlayerOrScan = None, neck_turn_to_point: Neck_TurnToPoint = None, neck_turn_to_relative: Neck_TurnToRelative = None, view_change_width: View_ChangeWidth = None, view_normal: View_Normal = None, view_synch: View_Synch = None, view_wide: View_Wide = None, helios_goalie: HeliosGoalie = None, helios_goalie_move: HeliosGoalieMove = None, helios_goalie_kick: HeliosGoalieKick = None, helios_shoot: HeliosShoot = None, helios_chain_action: HeliosChainAction = None, helios_basic_offensive: HeliosBasicOffensive = None, helios_basic_move: HeliosBasicMove = None, helios_set_play: HeliosSetPlay = None, helios_penalty: HeliosPenalty = None, helios_communication: HeliosCommunicaion = None):
+    def __init__(self, dash: Dash = None, turn: Turn = None, kick: Kick = None, tackle: Tackle = None, catch_action: Catch = None, move: Move = None, turn_neck: TurnNeck = None, change_view: ChangeView = None, say: Say = None, point_to: PointTo = None, point_to_of: PointToOf = None, attention_to: AttentionTo = None, attention_to_of: AttentionToOf = None, log: Log = None, debug_client: DebugClient = None, body_go_to_point: Body_GoToPoint = None, body_smart_kick: Body_SmartKick = None, bhv_before_kick_off: Bhv_BeforeKickOff = None, bhv_body_neck_to_ball: Bhv_BodyNeckToBall = None, bhv_body_neck_to_point: Bhv_BodyNeckToPoint = None, bhv_emergency: Bhv_Emergency = None, bhv_go_to_point_look_ball: Bhv_GoToPointLookBall = None, bhv_neck_body_to_ball: Bhv_NeckBodyToBall = None, bhv_neck_body_to_point: Bhv_NeckBodyToPoint = None, bhv_scan_field: Bhv_ScanField = None, body_advance_ball: Body_AdvanceBall = None, body_clear_ball: Body_ClearBall = None, body_dribble: Body_Dribble = None, body_go_to_point_dodge: Body_GoToPointDodge = None, body_hold_ball: Body_HoldBall = None, body_intercept: Body_Intercept = None, body_kick_one_step: Body_KickOneStep = None, body_stop_ball: Body_StopBall = None, body_stop_dash: Body_StopDash = None, body_tackle_to_point: Body_TackleToPoint = None, body_turn_to_angle: Body_TurnToAngle = None, body_turn_to_ball: Body_TurnToBall = None, body_turn_to_point: Body_TurnToPoint = None, focus_move_to_point: Focus_MoveToPoint = None, focus_reset: Focus_Reset = None, neck_scan_field: Neck_ScanField = None, neck_scan_players: Neck_ScanPlayers = None, neck_turn_to_ball_and_player: Neck_TurnToBallAndPlayer = None, neck_turn_to_ball_or_scan: Neck_TurnToBallOrScan = None, neck_turn_to_ball: Neck_TurnToBall = None, neck_turn_to_goalie_or_scan: Neck_TurnToGoalieOrScan = None, neck_turn_to_low_conf_teammate: Neck_TurnToLowConfTeammate = None, neck_turn_to_player_or_scan: Neck_TurnToPlayerOrScan = None, neck_turn_to_point: Neck_TurnToPoint = None, neck_turn_to_relative: Neck_TurnToRelative = None, view_change_width: View_ChangeWidth = None, view_normal: View_Normal = None, view_synch: View_Synch = None, view_wide: View_Wide = None, helios_goalie: HeliosGoalie = None, helios_goalie_move: HeliosGoalieMove = None, helios_goalie_kick: HeliosGoalieKick = None, helios_shoot: HeliosShoot = None, helios_offensive_planner: HeliosOffensivePlanner = None, helios_basic_offensive: HeliosBasicOffensive = None, helios_basic_move: HeliosBasicMove = None, helios_set_play: HeliosSetPlay = None, helios_penalty: HeliosPenalty = None, helios_communication: HeliosCommunicaion = None):
         pass
     dash: Dash
     turn: Turn
@@ -952,7 +965,7 @@ class PlayerAction(object):
     helios_goalie_move: HeliosGoalieMove
     helios_goalie_kick: HeliosGoalieKick
     helios_shoot: HeliosShoot
-    helios_chain_action: HeliosChainAction
+    helios_offensive_planner: HeliosOffensivePlanner
     helios_basic_offensive: HeliosBasicOffensive
     helios_basic_move: HeliosBasicMove
     helios_set_play: HeliosSetPlay
@@ -1342,6 +1355,64 @@ class PlayerType(object):
     real_speed_max2: float
     cycles_to_reach_max_speed: int
     player_speed_max: float
+
+class RpcActionCategory(Enum):
+    AC_Hold = auto()
+    AC_Dribble = auto()
+    AC_Pass = auto()
+    AC_Shoot = auto()
+    AC_Clear = auto()
+    AC_Move = auto()
+    AC_NoAction = auto()
+
+class RpcCooperativeAction(object):
+    def __init__(self, category: RpcActionCategory = None, index: int = None, sender_unum: int = None, target_unum: int = None, target_point: RpcVector2D = None, first_ball_speed: float = None, first_turn_moment: float = None, first_dash_power: float = None, first_dash_angle_relative: float = None, duration_step: int = None, kick_count: int = None, turn_count: int = None, dash_count: int = None, final_action: bool = None, description: str = None, parent_index: int = None):
+        pass
+    category: RpcActionCategory
+    index: int
+    sender_unum: int
+    target_unum: int
+    target_point: RpcVector2D
+    first_ball_speed: float
+    first_turn_moment: float
+    first_dash_power: float
+    first_dash_angle_relative: float
+    duration_step: int
+    kick_count: int
+    turn_count: int
+    dash_count: int
+    final_action: bool
+    description: str
+    parent_index: int
+
+class RpcPredictState(object):
+    def __init__(self, spend_time: int = None, ball_holder_unum: int = None, ball_position: RpcVector2D = None, ball_velocity: RpcVector2D = None, our_defense_line_x: float = None, our_offense_line_x: float = None):
+        pass
+    spend_time: int
+    ball_holder_unum: int
+    ball_position: RpcVector2D
+    ball_velocity: RpcVector2D
+    our_defense_line_x: float
+    our_offense_line_x: float
+
+class RpcActionState(object):
+    def __init__(self, action: RpcCooperativeAction = None, predict_state: RpcPredictState = None, evaluation: float = None):
+        pass
+    action: RpcCooperativeAction
+    predict_state: RpcPredictState
+    evaluation: float
+
+class BestPlannerActionRequest(object):
+    def __init__(self, register_response: RegisterResponse = None, pairs: Dict[int, RpcActionState] = None, state: State = None):
+        pass
+    register_response: RegisterResponse
+    pairs: Dict[int, RpcActionState]
+    state: State
+
+class BestPlannerActionResponse(object):
+    def __init__(self, index: int = None):
+        pass
+    index: int
 
 class Empty(object):
     def __init__(self, ):
