@@ -21,19 +21,31 @@ class RpcVector2D(object):
     angle: float
 
 class RegisterRequest(object):
-    def __init__(self, agent_type: AgentType = None, team_name: str = None, uniform_number: int = None):
+    def __init__(self, agent_type: AgentType = None, team_name: str = None, uniform_number: int = None, rpc_version: int = None):
         pass
     agent_type: AgentType
     team_name: str
     uniform_number: int
+    rpc_version: int
+
+class RpcServerLanguageType(Enum):
+    UNKNOWN_LANGUAGE = auto()
+    PYThON = auto()
+    JAVA = auto()
+    CPP = auto()
+    CSHARP = auto()
+    RUBY = auto()
+    JAVE_SCRIPT = auto()
+    GO = auto()
 
 class RegisterResponse(object):
-    def __init__(self, client_id: int = None, agent_type: AgentType = None, team_name: str = None, uniform_number: int = None):
+    def __init__(self, client_id: int = None, agent_type: AgentType = None, team_name: str = None, uniform_number: int = None, rpc_server_language_type: RpcServerLanguageType = None):
         pass
     client_id: int
     agent_type: AgentType
     team_name: str
     uniform_number: int
+    rpc_server_language_type: RpcServerLanguageType
 
 class Ball(object):
     def __init__(self, position: RpcVector2D = None, relative_position: RpcVector2D = None, seen_position: RpcVector2D = None, heard_position: RpcVector2D = None, velocity: RpcVector2D = None, seen_velocity: RpcVector2D = None, heard_velocity: RpcVector2D = None, pos_count: int = None, seen_pos_count: int = None, heard_pos_count: int = None, vel_count: int = None, seen_vel_count: int = None, heard_vel_count: int = None, lost_count: int = None, ghost_count: int = None, dist_from_self: float = None, angle_from_self: float = None):

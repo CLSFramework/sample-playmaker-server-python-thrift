@@ -52,6 +52,39 @@ class AgentType(object):
     }
 
 
+class RpcServerLanguageType(object):
+    UNKNOWN_LANGUAGE = 0
+    PYThON = 1
+    JAVA = 2
+    CPP = 3
+    CSHARP = 4
+    RUBY = 5
+    JAVE_SCRIPT = 6
+    GO = 7
+
+    _VALUES_TO_NAMES = {
+        0: "UNKNOWN_LANGUAGE",
+        1: "PYThON",
+        2: "JAVA",
+        3: "CPP",
+        4: "CSHARP",
+        5: "RUBY",
+        6: "JAVE_SCRIPT",
+        7: "GO",
+    }
+
+    _NAMES_TO_VALUES = {
+        "UNKNOWN_LANGUAGE": 0,
+        "PYThON": 1,
+        "JAVA": 2,
+        "CPP": 3,
+        "CSHARP": 4,
+        "RUBY": 5,
+        "JAVE_SCRIPT": 6,
+        "GO": 7,
+    }
+
+
 class Side(object):
     UNKNOWN = 0
     LEFT = 1
@@ -418,14 +451,16 @@ class RegisterRequest(object):
      - agent_type
      - team_name
      - uniform_number
+     - rpc_version
 
     """
 
 
-    def __init__(self, agent_type=None, team_name=None, uniform_number=None,):
+    def __init__(self, agent_type=None, team_name=None, uniform_number=None, rpc_version=None,):
         self.agent_type = agent_type
         self.team_name = team_name
         self.uniform_number = uniform_number
+        self.rpc_version = rpc_version
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -451,6 +486,11 @@ class RegisterRequest(object):
                     self.uniform_number = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.I32:
+                    self.rpc_version = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -472,6 +512,10 @@ class RegisterRequest(object):
         if self.uniform_number is not None:
             oprot.writeFieldBegin('uniform_number', TType.I32, 3)
             oprot.writeI32(self.uniform_number)
+            oprot.writeFieldEnd()
+        if self.rpc_version is not None:
+            oprot.writeFieldBegin('rpc_version', TType.I32, 4)
+            oprot.writeI32(self.rpc_version)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -498,15 +542,17 @@ class RegisterResponse(object):
      - agent_type
      - team_name
      - uniform_number
+     - rpc_server_language_type
 
     """
 
 
-    def __init__(self, client_id=None, agent_type=None, team_name=None, uniform_number=None,):
+    def __init__(self, client_id=None, agent_type=None, team_name=None, uniform_number=None, rpc_server_language_type=None,):
         self.client_id = client_id
         self.agent_type = agent_type
         self.team_name = team_name
         self.uniform_number = uniform_number
+        self.rpc_server_language_type = rpc_server_language_type
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -537,6 +583,11 @@ class RegisterResponse(object):
                     self.uniform_number = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.rpc_server_language_type = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -562,6 +613,10 @@ class RegisterResponse(object):
         if self.uniform_number is not None:
             oprot.writeFieldBegin('uniform_number', TType.I32, 4)
             oprot.writeI32(self.uniform_number)
+            oprot.writeFieldEnd()
+        if self.rpc_server_language_type is not None:
+            oprot.writeFieldBegin('rpc_server_language_type', TType.I32, 5)
+            oprot.writeI32(self.rpc_server_language_type)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -14903,6 +14958,7 @@ RegisterRequest.thrift_spec = (
     (1, TType.I32, 'agent_type', None, None, ),  # 1
     (2, TType.STRING, 'team_name', 'UTF8', None, ),  # 2
     (3, TType.I32, 'uniform_number', None, None, ),  # 3
+    (4, TType.I32, 'rpc_version', None, None, ),  # 4
 )
 all_structs.append(RegisterResponse)
 RegisterResponse.thrift_spec = (
@@ -14911,6 +14967,7 @@ RegisterResponse.thrift_spec = (
     (2, TType.I32, 'agent_type', None, None, ),  # 2
     (3, TType.STRING, 'team_name', 'UTF8', None, ),  # 3
     (4, TType.I32, 'uniform_number', None, None, ),  # 4
+    (5, TType.I32, 'rpc_server_language_type', None, None, ),  # 5
 )
 all_structs.append(Ball)
 Ball.thrift_spec = (
