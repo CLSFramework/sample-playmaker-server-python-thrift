@@ -15,6 +15,7 @@ from multiprocessing import Manager, Lock
 import logging
 from pyrusgeom.vector_2d import Vector2D
 import argparse
+from DebugPrint import dprint,DebugPrint
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -31,6 +32,9 @@ class GameHandler:
 
     def GetPlayerActions(self, state: State):
         logging.debug(f"GetPlayerActions unum {state.register_response.uniform_number} at {state.world_model.cycle}")
+        dprint(state, "-----------------------------------")
+        dprint(state, "Agent number: " + str(state.register_response.uniform_number))
+        dprint(state, "Position: " + str(state.world_model.myself.position))
         actions = []
         if state.world_model.game_mode_type == GameModeType.PlayOn:
             if state.world_model.myself.is_goalie:
@@ -158,7 +162,7 @@ def serve(port, shared_lock, shared_number_of_connections):
     transport = TSocket.TServerSocket(host='0.0.0.0', port=port)
     tfactory = TTransport.TBufferedTransportFactory()
     pfactory = TBinaryProtocol.TBinaryProtocolFactory()
-
+    
     server = PFProcessServer(processor, transport, tfactory, pfactory)
     # server = TThreadedServer(processor, transport, tfactory, pfactory)
 
@@ -177,6 +181,7 @@ def main():
     parser = argparse.ArgumentParser(description='Run play maker server')
     parser.add_argument('-p', '--rpc-port', required=False, help='The port of the server', default=50051)
     args = parser.parse_args()
+    DebugPrint.initialize_debug_printers()
     serve(args.rpc_port, shared_lock, shared_number_of_connections)
     
     
