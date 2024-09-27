@@ -67,7 +67,6 @@ def dprint(state: State, data, custom_log_file_name=None):
     :param state: The state object to get the cycle number
     :param data: The data to log (object, dictionary, etc.)
     :param custom_log_file_name: Optional custom log file name
-    :param custom_log_file_path: Optional custom log file path
     """
     global player_num
     player_num = state.register_response.uniform_number
