@@ -15,7 +15,6 @@ from multiprocessing import Manager, Lock
 import logging
 from pyrusgeom.vector_2d import Vector2D
 import argparse
-from DebugPrint import dprint,DebugPrint
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -29,12 +28,12 @@ class GameHandler:
         self.debug_mode: bool = False
         self.shared_lock = shared_lock
         self.shared_number_of_connections = shared_number_of_connections
+        self._get_logger = logging.getLogger()
 
     def GetPlayerActions(self, state: State):
         logging.debug(f"GetPlayerActions unum {state.register_response.uniform_number} at {state.world_model.cycle}")
-        dprint(state, "-----------------------------------")
-        dprint(state, "Agent number: " + str(state.register_response.uniform_number))
-        dprint(state, "Position: " + str(state.world_model.myself.position))
+        logger = self._get_logger
+        logger.debug(f'Hello i am {state.register_response.uniform_number}')
         actions = []
         if state.world_model.game_mode_type == GameModeType.PlayOn:
             if state.world_model.myself.is_goalie:
@@ -139,6 +138,19 @@ class GameHandler:
                                    team_name=team_name,
                                    uniform_number=uniform_number,
                                    agent_type=agent_type)
+            #set logger_name
+            logger = logging.getLogger(f'player_{uniform_number}')
+            logger.setLevel(logging.DEBUG)
+            # Create a file handler for the specific player
+            log_filename = f'player_{uniform_number}.log'
+            file_handler = logging.FileHandler(log_filename)
+            file_handler.setLevel(logging.DEBUG)
+            
+            # Create a logging format
+            logger.addHandler(file_handler)
+
+            self._get_logger = logger
+
             return res
 
     def SendByeCommand(self, register_response: RegisterResponse):
@@ -181,7 +193,6 @@ def main():
     parser = argparse.ArgumentParser(description='Run play maker server')
     parser.add_argument('-p', '--rpc-port', required=False, help='The port of the server', default=50051)
     args = parser.parse_args()
-    DebugPrint.initialize_debug_printers()
     serve(args.rpc_port, shared_lock, shared_number_of_connections)
     
     
