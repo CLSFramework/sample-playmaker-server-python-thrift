@@ -145,7 +145,7 @@ class GameHandler:
             uniform_number = register_request.uniform_number
             agent_type = register_request.agent_type
             self.logger: logging.Logger = setup_logger(f"Agent{register_request.uniform_number}-{self.shared_number_of_connections.value}", 
-                                                       "logs/Agent{register_request.uniform_number}-{self.shared_number_of_connections.value}.log", 
+                                                       f"logs/Agent{register_request.uniform_number}-{self.shared_number_of_connections.value}.log", 
                                                        console_level=console_logging_level, file_level=file_logging_level)
             res = RegisterResponse(client_id=self.shared_number_of_connections.value,
                                    team_name=team_name,

@@ -84,9 +84,9 @@ abspath=$(realpath $log_dir)
 
 cd scripts/proxy
 if [ "$debug" = true ]; then
-  bash start-debug.sh -t "$team_name" --rpc-port $rpc_port --rpc-type grpc >> $abspath 2>&1 &
+  bash start-debug.sh -t "$team_name" --rpc-port $rpc_port --rpc-type thrift >> $abspath 2>&1 &
 else
-  bash start.sh -t "$team_name" --rpc-port $rpc_port --rpc-type grpc >> $abspath 2>&1 &
+  bash start.sh -t "$team_name" --rpc-port $rpc_port --rpc-type thrift >> $abspath 2>&1 &
 fistart_pid=$!
 
 # Wait for both background processes to finish
