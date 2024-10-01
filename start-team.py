@@ -27,7 +27,7 @@ def run_server_script(args):
 def run_start_script(args):
     # Start the start.sh script in its own directory as a new process group
     process = subprocess.Popen(
-        ['bash', 'start.sh' if not args.debug else 'start-debug.sh', '-t', args.team_name, '--rpc-port', args.rpc_port, '--rpc-type', 'grpc'],
+        ['bash', 'start.sh' if not args.debug else 'start-debug.sh', '-t', args.team_name, '--rpc-port', args.rpc_port, '--rpc-type', 'thrift'],
         cwd='scripts/proxy',  # Corrected directory to where start.sh is located
         preexec_fn=os.setsid,  # Create a new session and set the process group ID
         stdout=subprocess.PIPE,
