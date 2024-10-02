@@ -16,12 +16,14 @@ import logging
 from pyrusgeom.vector_2d import Vector2D
 import argparse
 from utils.logger_utils import setup_logger
+import datetime
 
 
 console_logging_level = logging.INFO
 file_logging_level = logging.DEBUG
 
-main_logger = setup_logger("pmservice", "logs/pmservice.log", console_level=console_logging_level, file_level=file_logging_level)
+main_logger = None
+log_dir = None
 
 
 class GameHandler:
@@ -32,7 +34,7 @@ class GameHandler:
         self.debug_mode: bool = False
         self.shared_lock = shared_lock
         self.shared_number_of_connections = shared_number_of_connections
-        self.logger: logging.Logger = setup_logger("Agent", "logs/Agent.log", console_level=console_logging_level, file_level=file_logging_level)
+        self.logger: logging.Logger = setup_logger("Agent", log_dir, console_level=console_logging_level, file_level=file_logging_level)
 
     def GetPlayerActions(self, state: State):
         self.logger.debug(f"================================= cycle={state.world_model.cycle}.{state.world_model.stoped_cycle} =================================")
@@ -145,7 +147,7 @@ class GameHandler:
             uniform_number = register_request.uniform_number
             agent_type = register_request.agent_type
             self.logger: logging.Logger = setup_logger(f"Agent{register_request.uniform_number}-{self.shared_number_of_connections.value}", 
-                                                       f"logs/Agent{register_request.uniform_number}-{self.shared_number_of_connections.value}.log", 
+                                                       log_dir, 
                                                        console_level=console_logging_level, file_level=file_logging_level)
             res = RegisterResponse(client_id=self.shared_number_of_connections.value,
                                    team_name=team_name,
@@ -187,12 +189,18 @@ def serve(port, shared_lock, shared_number_of_connections):
 
 
 def main():
+    global main_logger, log_dir
     manager = Manager()
     shared_lock = Lock()  # Create a Lock for synchronization
     shared_number_of_connections = manager.Value('i', 0)
     parser = argparse.ArgumentParser(description='Run play maker server')
     parser.add_argument('-p', '--rpc-port', required=False, help='The port of the server', default=50051)
+    parser.add_argument('-l', '--log-dir', required=False, help='The directory of the log file', 
+                    default=f'logs/{datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}')
     args = parser.parse_args()
+    log_dir = args.log_dir
+    main_logger = setup_logger("pmservice", log_dir, console_level=console_logging_level, file_level=file_logging_level)
+
     serve(args.rpc_port, shared_lock, shared_number_of_connections)
     
     
