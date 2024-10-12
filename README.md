@@ -77,6 +77,7 @@ To create a Python virtual environment and install the dependencies, you can run
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+./generate.sh # To generate thrift python files
 ```
 
 ## Running a game
