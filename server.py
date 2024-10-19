@@ -53,7 +53,7 @@ class GameHandler:
                                                                                             simple_shoot=True,
                                                                                             simple_dribble=True,
                                                                                             cross=True,
-                                                                                            server_side_decision=False)))
+                                                                                            server_side_decision=True)))
                 actions.append(PlayerAction(helios_shoot=HeliosShoot()))
             else:
                 actions.append(PlayerAction(helios_basic_move=HeliosBasicMove()))
@@ -162,7 +162,7 @@ class GameHandler:
         res = Empty()
         return res
     def GetBestPlannerAction(self, pairs: BestPlannerActionRequest):
-        self.logger.debug(f"GetBestPlannerAction cycle:{pairs.state.world_model.cycle} pairs:{len(pairs.pairs)} unum:{pairs.register_response.uniform_number}")
+        self.logger.debug(f"GetBestPlannerAction cycle:{pairs.state.world_model.cycle} pairs:{len(pairs.pairs)} unum:{pairs.state.register_response.uniform_number}")
         pairs_list: list[int, RpcActionState] = [(k, v) for k, v in pairs.pairs.items()]
         pairs_list.sort(key=lambda x: x[0])
         best_action = max(pairs_list, key=lambda x: -1000 if x[1].action.parent_index != -1 else x[1].predict_state.ball_position.x)

@@ -2246,11 +2246,14 @@ class WorldModel(object):
      - kickable_opponent_existance
      - penalty_kick_state
      - see_time
+     - time_stopped
+     - set_play_count
+     - game_mode_side
 
     """
 
 
-    def __init__(self, intercept_table=None, our_team_name=None, their_team_name=None, our_side=None, last_set_play_start_time=None, myself=None, ball=None, teammates=None, opponents=None, unknowns=None, our_players_dict=None, their_players_dict=None, our_goalie_uniform_number=None, their_goalie_uniform_number=None, offside_line_x=None, offside_line_x_count=None, kickable_teammate_id=None, kickable_opponent_id=None, last_kick_side=None, last_kicker_uniform_number=None, cycle=None, game_mode_type=None, left_team_score=None, right_team_score=None, is_our_set_play=None, is_their_set_play=None, stoped_cycle=None, our_team_score=None, their_team_score=None, is_penalty_kick_mode=None, helios_home_positions=None, our_defense_line_x=None, their_defense_line_x=None, our_defense_player_line_x=None, their_defense_player_line_x=None, kickable_teammate_existance=None, kickable_opponent_existance=None, penalty_kick_state=None, see_time=None,):
+    def __init__(self, intercept_table=None, our_team_name=None, their_team_name=None, our_side=None, last_set_play_start_time=None, myself=None, ball=None, teammates=None, opponents=None, unknowns=None, our_players_dict=None, their_players_dict=None, our_goalie_uniform_number=None, their_goalie_uniform_number=None, offside_line_x=None, offside_line_x_count=None, kickable_teammate_id=None, kickable_opponent_id=None, last_kick_side=None, last_kicker_uniform_number=None, cycle=None, game_mode_type=None, left_team_score=None, right_team_score=None, is_our_set_play=None, is_their_set_play=None, stoped_cycle=None, our_team_score=None, their_team_score=None, is_penalty_kick_mode=None, helios_home_positions=None, our_defense_line_x=None, their_defense_line_x=None, our_defense_player_line_x=None, their_defense_player_line_x=None, kickable_teammate_existance=None, kickable_opponent_existance=None, penalty_kick_state=None, see_time=None, time_stopped=None, set_play_count=None, game_mode_side=None,):
         self.intercept_table = intercept_table
         self.our_team_name = our_team_name
         self.their_team_name = their_team_name
@@ -2290,6 +2293,9 @@ class WorldModel(object):
         self.kickable_opponent_existance = kickable_opponent_existance
         self.penalty_kick_state = penalty_kick_state
         self.see_time = see_time
+        self.time_stopped = time_stopped
+        self.set_play_count = set_play_count
+        self.game_mode_side = game_mode_side
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -2538,6 +2544,21 @@ class WorldModel(object):
                     self.see_time = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 40:
+                if ftype == TType.I32:
+                    self.time_stopped = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 41:
+                if ftype == TType.I32:
+                    self.set_play_count = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 42:
+                if ftype == TType.I32:
+                    self.game_mode_side = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -2724,6 +2745,18 @@ class WorldModel(object):
         if self.see_time is not None:
             oprot.writeFieldBegin('see_time', TType.I32, 39)
             oprot.writeI32(self.see_time)
+            oprot.writeFieldEnd()
+        if self.time_stopped is not None:
+            oprot.writeFieldBegin('time_stopped', TType.I32, 40)
+            oprot.writeI32(self.time_stopped)
+            oprot.writeFieldEnd()
+        if self.set_play_count is not None:
+            oprot.writeFieldBegin('set_play_count', TType.I32, 41)
+            oprot.writeI32(self.set_play_count)
+            oprot.writeFieldEnd()
+        if self.game_mode_side is not None:
+            oprot.writeFieldBegin('game_mode_side', TType.I32, 42)
+            oprot.writeI32(self.game_mode_side)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -11593,11 +11626,15 @@ class ServerParam(object):
      - penalty_area_half_width
      - penalty_area_length
      - goal_width
+     - goal_area_width
+     - goal_area_length
+     - center_circle_r
+     - goal_post_radius
 
     """
 
 
-    def __init__(self, register_response=None, inertia_moment=None, player_size=None, player_decay=None, player_rand=None, player_weight=None, player_speed_max=None, player_accel_max=None, stamina_max=None, stamina_inc_max=None, recover_init=None, recover_dec_thr=None, recover_min=None, recover_dec=None, effort_init=None, effort_dec_thr=None, effort_min=None, effort_dec=None, effort_inc_thr=None, effort_inc=None, kick_rand=None, team_actuator_noise=None, player_rand_factor_l=None, player_rand_factor_r=None, kick_rand_factor_l=None, kick_rand_factor_r=None, ball_size=None, ball_decay=None, ball_rand=None, ball_weight=None, ball_speed_max=None, ball_accel_max=None, dash_power_rate=None, kick_power_rate=None, kickable_margin=None, control_radius=None, control_radius_width=None, max_power=None, min_power=None, max_moment=None, min_moment=None, max_neck_moment=None, min_neck_moment=None, max_neck_angle=None, min_neck_angle=None, visible_angle=None, visible_distance=None, wind_dir=None, wind_force=None, wind_angle=None, wind_rand=None, kickable_area=None, catch_area_l=None, catch_area_w=None, catch_probability=None, goalie_max_moves=None, corner_kick_margin=None, offside_active_area_size=None, wind_none=None, use_wind_random=None, coach_say_count_max=None, coach_say_msg_size=None, clang_win_size=None, clang_define_win=None, clang_meta_win=None, clang_advice_win=None, clang_info_win=None, clang_mess_delay=None, clang_mess_per_cycle=None, half_time=None, simulator_step=None, send_step=None, recv_step=None, sense_body_step=None, lcm_step=None, player_say_msg_size=None, player_hear_max=None, player_hear_inc=None, player_hear_decay=None, catch_ban_cycle=None, slow_down_factor=None, use_offside=None, kickoff_offside=None, offside_kick_margin=None, audio_cut_dist=None, dist_quantize_step=None, landmark_dist_quantize_step=None, dir_quantize_step=None, dist_quantize_step_l=None, dist_quantize_step_r=None, landmark_dist_quantize_step_l=None, landmark_dist_quantize_step_r=None, dir_quantize_step_l=None, dir_quantize_step_r=None, coach_mode=None, coach_with_referee_mode=None, use_old_coach_hear=None, slowness_on_top_for_left_team=None, slowness_on_top_for_right_team=None, start_goal_l=None, start_goal_r=None, fullstate_l=None, fullstate_r=None, drop_ball_time=None, synch_mode=None, synch_offset=None, synch_micro_sleep=None, point_to_ban=None, point_to_duration=None, player_port=None, trainer_port=None, online_coach_port=None, verbose_mode=None, coach_send_vi_step=None, replay_file=None, landmark_file=None, send_comms=None, text_logging=None, game_logging=None, game_log_version=None, text_log_dir=None, game_log_dir=None, text_log_fixed_name=None, game_log_fixed_name=None, use_text_log_fixed=None, use_game_log_fixed=None, use_text_log_dated=None, use_game_log_dated=None, log_date_format=None, log_times=None, record_message=None, text_log_compression=None, game_log_compression=None, use_profile=None, tackle_dist=None, tackle_back_dist=None, tackle_width=None, tackle_exponent=None, tackle_cycles=None, tackle_power_rate=None, freeform_wait_period=None, freeform_send_period=None, free_kick_faults=None, back_passes=None, proper_goal_kicks=None, stopped_ball_vel=None, max_goal_kicks=None, clang_del_win=None, clang_rule_win=None, auto_mode=None, kick_off_wait=None, connect_wait=None, game_over_wait=None, team_l_start=None, team_r_start=None, keepaway_mode=None, keepaway_length=None, keepaway_width=None, keepaway_logging=None, keepaway_log_dir=None, keepaway_log_fixed_name=None, keepaway_log_fixed=None, keepaway_log_dated=None, keepaway_start=None, nr_normal_halfs=None, nr_extra_halfs=None, penalty_shoot_outs=None, pen_before_setup_wait=None, pen_setup_wait=None, pen_ready_wait=None, pen_taken_wait=None, pen_nr_kicks=None, pen_max_extra_kicks=None, pen_dist_x=None, pen_random_winner=None, pen_allow_mult_kicks=None, pen_max_goalie_dist_x=None, pen_coach_moves_players=None, module_dir=None, ball_stuck_area=None, coach_msg_file=None, max_tackle_power=None, max_back_tackle_power=None, player_speed_max_min=None, extra_stamina=None, synch_see_offset=None, extra_half_time=None, stamina_capacity=None, max_dash_angle=None, min_dash_angle=None, dash_angle_step=None, side_dash_rate=None, back_dash_rate=None, max_dash_power=None, min_dash_power=None, tackle_rand_factor=None, foul_detect_probability=None, foul_exponent=None, foul_cycles=None, golden_goal=None, red_card_probability=None, illegal_defense_duration=None, illegal_defense_number=None, illegal_defense_dist_x=None, illegal_defense_width=None, fixed_teamname_l=None, fixed_teamname_r=None, max_catch_angle=None, min_catch_angle=None, random_seed=None, long_kick_power_factor=None, long_kick_delay=None, max_monitors=None, catchable_area=None, real_speed_max=None, pitch_half_length=None, pitch_half_width=None, our_penalty_area_line_x=None, their_penalty_area_line_x=None, penalty_area_half_width=None, penalty_area_length=None, goal_width=None,):
+    def __init__(self, register_response=None, inertia_moment=None, player_size=None, player_decay=None, player_rand=None, player_weight=None, player_speed_max=None, player_accel_max=None, stamina_max=None, stamina_inc_max=None, recover_init=None, recover_dec_thr=None, recover_min=None, recover_dec=None, effort_init=None, effort_dec_thr=None, effort_min=None, effort_dec=None, effort_inc_thr=None, effort_inc=None, kick_rand=None, team_actuator_noise=None, player_rand_factor_l=None, player_rand_factor_r=None, kick_rand_factor_l=None, kick_rand_factor_r=None, ball_size=None, ball_decay=None, ball_rand=None, ball_weight=None, ball_speed_max=None, ball_accel_max=None, dash_power_rate=None, kick_power_rate=None, kickable_margin=None, control_radius=None, control_radius_width=None, max_power=None, min_power=None, max_moment=None, min_moment=None, max_neck_moment=None, min_neck_moment=None, max_neck_angle=None, min_neck_angle=None, visible_angle=None, visible_distance=None, wind_dir=None, wind_force=None, wind_angle=None, wind_rand=None, kickable_area=None, catch_area_l=None, catch_area_w=None, catch_probability=None, goalie_max_moves=None, corner_kick_margin=None, offside_active_area_size=None, wind_none=None, use_wind_random=None, coach_say_count_max=None, coach_say_msg_size=None, clang_win_size=None, clang_define_win=None, clang_meta_win=None, clang_advice_win=None, clang_info_win=None, clang_mess_delay=None, clang_mess_per_cycle=None, half_time=None, simulator_step=None, send_step=None, recv_step=None, sense_body_step=None, lcm_step=None, player_say_msg_size=None, player_hear_max=None, player_hear_inc=None, player_hear_decay=None, catch_ban_cycle=None, slow_down_factor=None, use_offside=None, kickoff_offside=None, offside_kick_margin=None, audio_cut_dist=None, dist_quantize_step=None, landmark_dist_quantize_step=None, dir_quantize_step=None, dist_quantize_step_l=None, dist_quantize_step_r=None, landmark_dist_quantize_step_l=None, landmark_dist_quantize_step_r=None, dir_quantize_step_l=None, dir_quantize_step_r=None, coach_mode=None, coach_with_referee_mode=None, use_old_coach_hear=None, slowness_on_top_for_left_team=None, slowness_on_top_for_right_team=None, start_goal_l=None, start_goal_r=None, fullstate_l=None, fullstate_r=None, drop_ball_time=None, synch_mode=None, synch_offset=None, synch_micro_sleep=None, point_to_ban=None, point_to_duration=None, player_port=None, trainer_port=None, online_coach_port=None, verbose_mode=None, coach_send_vi_step=None, replay_file=None, landmark_file=None, send_comms=None, text_logging=None, game_logging=None, game_log_version=None, text_log_dir=None, game_log_dir=None, text_log_fixed_name=None, game_log_fixed_name=None, use_text_log_fixed=None, use_game_log_fixed=None, use_text_log_dated=None, use_game_log_dated=None, log_date_format=None, log_times=None, record_message=None, text_log_compression=None, game_log_compression=None, use_profile=None, tackle_dist=None, tackle_back_dist=None, tackle_width=None, tackle_exponent=None, tackle_cycles=None, tackle_power_rate=None, freeform_wait_period=None, freeform_send_period=None, free_kick_faults=None, back_passes=None, proper_goal_kicks=None, stopped_ball_vel=None, max_goal_kicks=None, clang_del_win=None, clang_rule_win=None, auto_mode=None, kick_off_wait=None, connect_wait=None, game_over_wait=None, team_l_start=None, team_r_start=None, keepaway_mode=None, keepaway_length=None, keepaway_width=None, keepaway_logging=None, keepaway_log_dir=None, keepaway_log_fixed_name=None, keepaway_log_fixed=None, keepaway_log_dated=None, keepaway_start=None, nr_normal_halfs=None, nr_extra_halfs=None, penalty_shoot_outs=None, pen_before_setup_wait=None, pen_setup_wait=None, pen_ready_wait=None, pen_taken_wait=None, pen_nr_kicks=None, pen_max_extra_kicks=None, pen_dist_x=None, pen_random_winner=None, pen_allow_mult_kicks=None, pen_max_goalie_dist_x=None, pen_coach_moves_players=None, module_dir=None, ball_stuck_area=None, coach_msg_file=None, max_tackle_power=None, max_back_tackle_power=None, player_speed_max_min=None, extra_stamina=None, synch_see_offset=None, extra_half_time=None, stamina_capacity=None, max_dash_angle=None, min_dash_angle=None, dash_angle_step=None, side_dash_rate=None, back_dash_rate=None, max_dash_power=None, min_dash_power=None, tackle_rand_factor=None, foul_detect_probability=None, foul_exponent=None, foul_cycles=None, golden_goal=None, red_card_probability=None, illegal_defense_duration=None, illegal_defense_number=None, illegal_defense_dist_x=None, illegal_defense_width=None, fixed_teamname_l=None, fixed_teamname_r=None, max_catch_angle=None, min_catch_angle=None, random_seed=None, long_kick_power_factor=None, long_kick_delay=None, max_monitors=None, catchable_area=None, real_speed_max=None, pitch_half_length=None, pitch_half_width=None, our_penalty_area_line_x=None, their_penalty_area_line_x=None, penalty_area_half_width=None, penalty_area_length=None, goal_width=None, goal_area_width=None, goal_area_length=None, center_circle_r=None, goal_post_radius=None,):
         self.register_response = register_response
         self.inertia_moment = inertia_moment
         self.player_size = player_size
@@ -11820,6 +11857,10 @@ class ServerParam(object):
         self.penalty_area_half_width = penalty_area_half_width
         self.penalty_area_length = penalty_area_length
         self.goal_width = goal_width
+        self.goal_area_width = goal_area_width
+        self.goal_area_length = goal_area_length
+        self.center_circle_r = center_circle_r
+        self.goal_post_radius = goal_post_radius
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -12941,6 +12982,26 @@ class ServerParam(object):
                     self.goal_width = iprot.readDouble()
                 else:
                     iprot.skip(ftype)
+            elif fid == 223:
+                if ftype == TType.DOUBLE:
+                    self.goal_area_width = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 224:
+                if ftype == TType.DOUBLE:
+                    self.goal_area_length = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 225:
+                if ftype == TType.DOUBLE:
+                    self.center_circle_r = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 226:
+                if ftype == TType.DOUBLE:
+                    self.goal_post_radius = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -13838,6 +13899,22 @@ class ServerParam(object):
         if self.goal_width is not None:
             oprot.writeFieldBegin('goal_width', TType.DOUBLE, 222)
             oprot.writeDouble(self.goal_width)
+            oprot.writeFieldEnd()
+        if self.goal_area_width is not None:
+            oprot.writeFieldBegin('goal_area_width', TType.DOUBLE, 223)
+            oprot.writeDouble(self.goal_area_width)
+            oprot.writeFieldEnd()
+        if self.goal_area_length is not None:
+            oprot.writeFieldBegin('goal_area_length', TType.DOUBLE, 224)
+            oprot.writeDouble(self.goal_area_length)
+            oprot.writeFieldEnd()
+        if self.center_circle_r is not None:
+            oprot.writeFieldBegin('center_circle_r', TType.DOUBLE, 225)
+            oprot.writeDouble(self.center_circle_r)
+            oprot.writeFieldEnd()
+        if self.goal_post_radius is not None:
+            oprot.writeFieldBegin('goal_post_radius', TType.DOUBLE, 226)
+            oprot.writeDouble(self.goal_post_radius)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -15466,6 +15543,9 @@ WorldModel.thrift_spec = (
     (37, TType.BOOL, 'kickable_opponent_existance', None, None, ),  # 37
     (38, TType.STRUCT, 'penalty_kick_state', [PenaltyKickState, None], None, ),  # 38
     (39, TType.I32, 'see_time', None, None, ),  # 39
+    (40, TType.I32, 'time_stopped', None, None, ),  # 40
+    (41, TType.I32, 'set_play_count', None, None, ),  # 41
+    (42, TType.I32, 'game_mode_side', None, None, ),  # 42
 )
 all_structs.append(State)
 State.thrift_spec = (
@@ -16423,6 +16503,10 @@ ServerParam.thrift_spec = (
     (220, TType.DOUBLE, 'penalty_area_half_width', None, None, ),  # 220
     (221, TType.DOUBLE, 'penalty_area_length', None, None, ),  # 221
     (222, TType.DOUBLE, 'goal_width', None, None, ),  # 222
+    (223, TType.DOUBLE, 'goal_area_width', None, None, ),  # 223
+    (224, TType.DOUBLE, 'goal_area_length', None, None, ),  # 224
+    (225, TType.DOUBLE, 'center_circle_r', None, None, ),  # 225
+    (226, TType.DOUBLE, 'goal_post_radius', None, None, ),  # 226
 )
 all_structs.append(PlayerParam)
 PlayerParam.thrift_spec = (
