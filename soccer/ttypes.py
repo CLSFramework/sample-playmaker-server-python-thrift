@@ -876,6 +876,129 @@ class Ball(object):
         return not (self == other)
 
 
+class PenaltyKickState(object):
+    """
+    Attributes:
+     - on_field_side
+     - current_taker_side
+     - our_taker_counter
+     - their_taker_counter
+     - our_score
+     - their_score
+     - is_kick_taker
+
+    """
+
+
+    def __init__(self, on_field_side=None, current_taker_side=None, our_taker_counter=None, their_taker_counter=None, our_score=None, their_score=None, is_kick_taker=None,):
+        self.on_field_side = on_field_side
+        self.current_taker_side = current_taker_side
+        self.our_taker_counter = our_taker_counter
+        self.their_taker_counter = their_taker_counter
+        self.our_score = our_score
+        self.their_score = their_score
+        self.is_kick_taker = is_kick_taker
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.on_field_side = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.current_taker_side = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I32:
+                    self.our_taker_counter = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.I32:
+                    self.their_taker_counter = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.our_score = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I32:
+                    self.their_score = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.BOOL:
+                    self.is_kick_taker = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('PenaltyKickState')
+        if self.on_field_side is not None:
+            oprot.writeFieldBegin('on_field_side', TType.I32, 1)
+            oprot.writeI32(self.on_field_side)
+            oprot.writeFieldEnd()
+        if self.current_taker_side is not None:
+            oprot.writeFieldBegin('current_taker_side', TType.I32, 2)
+            oprot.writeI32(self.current_taker_side)
+            oprot.writeFieldEnd()
+        if self.our_taker_counter is not None:
+            oprot.writeFieldBegin('our_taker_counter', TType.I32, 3)
+            oprot.writeI32(self.our_taker_counter)
+            oprot.writeFieldEnd()
+        if self.their_taker_counter is not None:
+            oprot.writeFieldBegin('their_taker_counter', TType.I32, 4)
+            oprot.writeI32(self.their_taker_counter)
+            oprot.writeFieldEnd()
+        if self.our_score is not None:
+            oprot.writeFieldBegin('our_score', TType.I32, 5)
+            oprot.writeI32(self.our_score)
+            oprot.writeFieldEnd()
+        if self.their_score is not None:
+            oprot.writeFieldBegin('their_score', TType.I32, 6)
+            oprot.writeI32(self.their_score)
+            oprot.writeFieldEnd()
+        if self.is_kick_taker is not None:
+            oprot.writeFieldBegin('is_kick_taker', TType.BOOL, 7)
+            oprot.writeBool(self.is_kick_taker)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class Player(object):
     """
     Attributes:
@@ -1300,11 +1423,12 @@ class Self(object):
      - stamina_capacity
      - card
      - catch_time
+     - effort
 
     """
 
 
-    def __init__(self, position=None, seen_position=None, heard_position=None, velocity=None, seen_velocity=None, pos_count=None, seen_pos_count=None, heard_pos_count=None, vel_count=None, seen_vel_count=None, ghost_count=None, id=None, side=None, uniform_number=None, uniform_number_count=None, is_goalie=None, body_direction=None, body_direction_count=None, face_direction=None, face_direction_count=None, point_to_direction=None, point_to_direction_count=None, is_kicking=None, dist_from_ball=None, angle_from_ball=None, ball_reach_steps=None, is_tackling=None, relative_neck_direction=None, stamina=None, is_kickable=None, catch_probability=None, tackle_probability=None, foul_probability=None, view_width=None, type_id=None, kick_rate=None, recovery=None, stamina_capacity=None, card=None, catch_time=None,):
+    def __init__(self, position=None, seen_position=None, heard_position=None, velocity=None, seen_velocity=None, pos_count=None, seen_pos_count=None, heard_pos_count=None, vel_count=None, seen_vel_count=None, ghost_count=None, id=None, side=None, uniform_number=None, uniform_number_count=None, is_goalie=None, body_direction=None, body_direction_count=None, face_direction=None, face_direction_count=None, point_to_direction=None, point_to_direction_count=None, is_kicking=None, dist_from_ball=None, angle_from_ball=None, ball_reach_steps=None, is_tackling=None, relative_neck_direction=None, stamina=None, is_kickable=None, catch_probability=None, tackle_probability=None, foul_probability=None, view_width=None, type_id=None, kick_rate=None, recovery=None, stamina_capacity=None, card=None, catch_time=None, effort=None,):
         self.position = position
         self.seen_position = seen_position
         self.heard_position = heard_position
@@ -1345,6 +1469,7 @@ class Self(object):
         self.stamina_capacity = stamina_capacity
         self.card = card
         self.catch_time = catch_time
+        self.effort = effort
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1560,6 +1685,11 @@ class Self(object):
                     self.catch_time = iprot.readI32()
                 else:
                     iprot.skip(ftype)
+            elif fid == 41:
+                if ftype == TType.DOUBLE:
+                    self.effort = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1729,6 +1859,10 @@ class Self(object):
         if self.catch_time is not None:
             oprot.writeFieldBegin('catch_time', TType.I32, 40)
             oprot.writeI32(self.catch_time)
+            oprot.writeFieldEnd()
+        if self.effort is not None:
+            oprot.writeFieldBegin('effort', TType.DOUBLE, 41)
+            oprot.writeDouble(self.effort)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2110,11 +2244,13 @@ class WorldModel(object):
      - their_defense_player_line_x
      - kickable_teammate_existance
      - kickable_opponent_existance
+     - penalty_kick_state
+     - see_time
 
     """
 
 
-    def __init__(self, intercept_table=None, our_team_name=None, their_team_name=None, our_side=None, last_set_play_start_time=None, myself=None, ball=None, teammates=None, opponents=None, unknowns=None, our_players_dict=None, their_players_dict=None, our_goalie_uniform_number=None, their_goalie_uniform_number=None, offside_line_x=None, offside_line_x_count=None, kickable_teammate_id=None, kickable_opponent_id=None, last_kick_side=None, last_kicker_uniform_number=None, cycle=None, game_mode_type=None, left_team_score=None, right_team_score=None, is_our_set_play=None, is_their_set_play=None, stoped_cycle=None, our_team_score=None, their_team_score=None, is_penalty_kick_mode=None, helios_home_positions=None, our_defense_line_x=None, their_defense_line_x=None, our_defense_player_line_x=None, their_defense_player_line_x=None, kickable_teammate_existance=None, kickable_opponent_existance=None,):
+    def __init__(self, intercept_table=None, our_team_name=None, their_team_name=None, our_side=None, last_set_play_start_time=None, myself=None, ball=None, teammates=None, opponents=None, unknowns=None, our_players_dict=None, their_players_dict=None, our_goalie_uniform_number=None, their_goalie_uniform_number=None, offside_line_x=None, offside_line_x_count=None, kickable_teammate_id=None, kickable_opponent_id=None, last_kick_side=None, last_kicker_uniform_number=None, cycle=None, game_mode_type=None, left_team_score=None, right_team_score=None, is_our_set_play=None, is_their_set_play=None, stoped_cycle=None, our_team_score=None, their_team_score=None, is_penalty_kick_mode=None, helios_home_positions=None, our_defense_line_x=None, their_defense_line_x=None, our_defense_player_line_x=None, their_defense_player_line_x=None, kickable_teammate_existance=None, kickable_opponent_existance=None, penalty_kick_state=None, see_time=None,):
         self.intercept_table = intercept_table
         self.our_team_name = our_team_name
         self.their_team_name = their_team_name
@@ -2152,6 +2288,8 @@ class WorldModel(object):
         self.their_defense_player_line_x = their_defense_player_line_x
         self.kickable_teammate_existance = kickable_teammate_existance
         self.kickable_opponent_existance = kickable_opponent_existance
+        self.penalty_kick_state = penalty_kick_state
+        self.see_time = see_time
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -2389,6 +2527,17 @@ class WorldModel(object):
                     self.kickable_opponent_existance = iprot.readBool()
                 else:
                     iprot.skip(ftype)
+            elif fid == 38:
+                if ftype == TType.STRUCT:
+                    self.penalty_kick_state = PenaltyKickState()
+                    self.penalty_kick_state.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 39:
+                if ftype == TType.I32:
+                    self.see_time = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -2567,6 +2716,14 @@ class WorldModel(object):
         if self.kickable_opponent_existance is not None:
             oprot.writeFieldBegin('kickable_opponent_existance', TType.BOOL, 37)
             oprot.writeBool(self.kickable_opponent_existance)
+            oprot.writeFieldEnd()
+        if self.penalty_kick_state is not None:
+            oprot.writeFieldBegin('penalty_kick_state', TType.STRUCT, 38)
+            self.penalty_kick_state.write(oprot)
+            oprot.writeFieldEnd()
+        if self.see_time is not None:
+            oprot.writeFieldBegin('see_time', TType.I32, 39)
+            oprot.writeI32(self.see_time)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -9366,6 +9523,46 @@ class bhv_doForceKick(object):
         return not (self == other)
 
 
+class bhv_doHeardPassRecieve(object):
+
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('bhv_doHeardPassRecieve')
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class PlayerAction(object):
     """
     Attributes:
@@ -9434,11 +9631,12 @@ class PlayerAction(object):
      - helios_penalty
      - helios_communication
      - bhv_do_force_kick
+     - bhv_do_heard_pass_recieve
 
     """
 
 
-    def __init__(self, dash=None, turn=None, kick=None, tackle=None, catch_action=None, move=None, turn_neck=None, change_view=None, say=None, point_to=None, point_to_of=None, attention_to=None, attention_to_of=None, log=None, debug_client=None, body_go_to_point=None, body_smart_kick=None, bhv_before_kick_off=None, bhv_body_neck_to_ball=None, bhv_body_neck_to_point=None, bhv_emergency=None, bhv_go_to_point_look_ball=None, bhv_neck_body_to_ball=None, bhv_neck_body_to_point=None, bhv_scan_field=None, body_advance_ball=None, body_clear_ball=None, body_dribble=None, body_go_to_point_dodge=None, body_hold_ball=None, body_intercept=None, body_kick_one_step=None, body_stop_ball=None, body_stop_dash=None, body_tackle_to_point=None, body_turn_to_angle=None, body_turn_to_ball=None, body_turn_to_point=None, focus_move_to_point=None, focus_reset=None, neck_scan_field=None, neck_scan_players=None, neck_turn_to_ball_and_player=None, neck_turn_to_ball_or_scan=None, neck_turn_to_ball=None, neck_turn_to_goalie_or_scan=None, neck_turn_to_low_conf_teammate=None, neck_turn_to_player_or_scan=None, neck_turn_to_point=None, neck_turn_to_relative=None, view_change_width=None, view_normal=None, view_synch=None, view_wide=None, helios_goalie=None, helios_goalie_move=None, helios_goalie_kick=None, helios_shoot=None, helios_offensive_planner=None, helios_basic_offensive=None, helios_basic_move=None, helios_set_play=None, helios_penalty=None, helios_communication=None, bhv_do_force_kick=None,):
+    def __init__(self, dash=None, turn=None, kick=None, tackle=None, catch_action=None, move=None, turn_neck=None, change_view=None, say=None, point_to=None, point_to_of=None, attention_to=None, attention_to_of=None, log=None, debug_client=None, body_go_to_point=None, body_smart_kick=None, bhv_before_kick_off=None, bhv_body_neck_to_ball=None, bhv_body_neck_to_point=None, bhv_emergency=None, bhv_go_to_point_look_ball=None, bhv_neck_body_to_ball=None, bhv_neck_body_to_point=None, bhv_scan_field=None, body_advance_ball=None, body_clear_ball=None, body_dribble=None, body_go_to_point_dodge=None, body_hold_ball=None, body_intercept=None, body_kick_one_step=None, body_stop_ball=None, body_stop_dash=None, body_tackle_to_point=None, body_turn_to_angle=None, body_turn_to_ball=None, body_turn_to_point=None, focus_move_to_point=None, focus_reset=None, neck_scan_field=None, neck_scan_players=None, neck_turn_to_ball_and_player=None, neck_turn_to_ball_or_scan=None, neck_turn_to_ball=None, neck_turn_to_goalie_or_scan=None, neck_turn_to_low_conf_teammate=None, neck_turn_to_player_or_scan=None, neck_turn_to_point=None, neck_turn_to_relative=None, view_change_width=None, view_normal=None, view_synch=None, view_wide=None, helios_goalie=None, helios_goalie_move=None, helios_goalie_kick=None, helios_shoot=None, helios_offensive_planner=None, helios_basic_offensive=None, helios_basic_move=None, helios_set_play=None, helios_penalty=None, helios_communication=None, bhv_do_force_kick=None, bhv_do_heard_pass_recieve=None,):
         self.dash = dash
         self.turn = turn
         self.kick = kick
@@ -9504,6 +9702,7 @@ class PlayerAction(object):
         self.helios_penalty = helios_penalty
         self.helios_communication = helios_communication
         self.bhv_do_force_kick = bhv_do_force_kick
+        self.bhv_do_heard_pass_recieve = bhv_do_heard_pass_recieve
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -9904,6 +10103,12 @@ class PlayerAction(object):
                     self.bhv_do_force_kick.read(iprot)
                 else:
                     iprot.skip(ftype)
+            elif fid == 66:
+                if ftype == TType.STRUCT:
+                    self.bhv_do_heard_pass_recieve = bhv_doHeardPassRecieve()
+                    self.bhv_do_heard_pass_recieve.read(iprot)
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -10174,6 +10379,10 @@ class PlayerAction(object):
             oprot.writeFieldBegin('bhv_do_force_kick', TType.STRUCT, 65)
             self.bhv_do_force_kick.write(oprot)
             oprot.writeFieldEnd()
+        if self.bhv_do_heard_pass_recieve is not None:
+            oprot.writeFieldBegin('bhv_do_heard_pass_recieve', TType.STRUCT, 66)
+            self.bhv_do_heard_pass_recieve.write(oprot)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -10197,13 +10406,17 @@ class PlayerActions(object):
     Attributes:
      - actions
      - ignore_preprocess
+     - ignore_doforcekick
+     - ignore_doHeardPassRecieve
 
     """
 
 
-    def __init__(self, actions=None, ignore_preprocess=None,):
+    def __init__(self, actions=None, ignore_preprocess=None, ignore_doforcekick=None, ignore_doHeardPassRecieve=None,):
         self.actions = actions
         self.ignore_preprocess = ignore_preprocess
+        self.ignore_doforcekick = ignore_doforcekick
+        self.ignore_doHeardPassRecieve = ignore_doHeardPassRecieve
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -10230,6 +10443,16 @@ class PlayerActions(object):
                     self.ignore_preprocess = iprot.readBool()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.BOOL:
+                    self.ignore_doforcekick = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.BOOL:
+                    self.ignore_doHeardPassRecieve = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -10250,6 +10473,14 @@ class PlayerActions(object):
         if self.ignore_preprocess is not None:
             oprot.writeFieldBegin('ignore_preprocess', TType.BOOL, 2)
             oprot.writeBool(self.ignore_preprocess)
+            oprot.writeFieldEnd()
+        if self.ignore_doforcekick is not None:
+            oprot.writeFieldBegin('ignore_doforcekick', TType.BOOL, 3)
+            oprot.writeBool(self.ignore_doforcekick)
+            oprot.writeFieldEnd()
+        if self.ignore_doHeardPassRecieve is not None:
+            oprot.writeFieldBegin('ignore_doHeardPassRecieve', TType.BOOL, 4)
+            oprot.writeBool(self.ignore_doHeardPassRecieve)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -15075,6 +15306,17 @@ Ball.thrift_spec = (
     (16, TType.DOUBLE, 'dist_from_self', None, None, ),  # 16
     (17, TType.DOUBLE, 'angle_from_self', None, None, ),  # 17
 )
+all_structs.append(PenaltyKickState)
+PenaltyKickState.thrift_spec = (
+    None,  # 0
+    (1, TType.I32, 'on_field_side', None, None, ),  # 1
+    (2, TType.I32, 'current_taker_side', None, None, ),  # 2
+    (3, TType.I32, 'our_taker_counter', None, None, ),  # 3
+    (4, TType.I32, 'their_taker_counter', None, None, ),  # 4
+    (5, TType.I32, 'our_score', None, None, ),  # 5
+    (6, TType.I32, 'their_score', None, None, ),  # 6
+    (7, TType.BOOL, 'is_kick_taker', None, None, ),  # 7
+)
 all_structs.append(Player)
 Player.thrift_spec = (
     None,  # 0
@@ -15152,6 +15394,7 @@ Self.thrift_spec = (
     (38, TType.DOUBLE, 'stamina_capacity', None, None, ),  # 38
     (39, TType.I32, 'card', None, None, ),  # 39
     (40, TType.I32, 'catch_time', None, None, ),  # 40
+    (41, TType.DOUBLE, 'effort', None, None, ),  # 41
 )
 all_structs.append(InterceptInfo)
 InterceptInfo.thrift_spec = (
@@ -15221,6 +15464,8 @@ WorldModel.thrift_spec = (
     (35, TType.DOUBLE, 'their_defense_player_line_x', None, None, ),  # 35
     (36, TType.BOOL, 'kickable_teammate_existance', None, None, ),  # 36
     (37, TType.BOOL, 'kickable_opponent_existance', None, None, ),  # 37
+    (38, TType.STRUCT, 'penalty_kick_state', [PenaltyKickState, None], None, ),  # 38
+    (39, TType.I32, 'see_time', None, None, ),  # 39
 )
 all_structs.append(State)
 State.thrift_spec = (
@@ -15800,6 +16045,9 @@ HeliosCommunicaion.thrift_spec = (
 all_structs.append(bhv_doForceKick)
 bhv_doForceKick.thrift_spec = (
 )
+all_structs.append(bhv_doHeardPassRecieve)
+bhv_doHeardPassRecieve.thrift_spec = (
+)
 all_structs.append(PlayerAction)
 PlayerAction.thrift_spec = (
     None,  # 0
@@ -15868,12 +16116,15 @@ PlayerAction.thrift_spec = (
     (63, TType.STRUCT, 'helios_penalty', [HeliosPenalty, None], None, ),  # 63
     (64, TType.STRUCT, 'helios_communication', [HeliosCommunicaion, None], None, ),  # 64
     (65, TType.STRUCT, 'bhv_do_force_kick', [bhv_doForceKick, None], None, ),  # 65
+    (66, TType.STRUCT, 'bhv_do_heard_pass_recieve', [bhv_doHeardPassRecieve, None], None, ),  # 66
 )
 all_structs.append(PlayerActions)
 PlayerActions.thrift_spec = (
     None,  # 0
     (1, TType.LIST, 'actions', (TType.STRUCT, [PlayerAction, None], False), None, ),  # 1
     (2, TType.BOOL, 'ignore_preprocess', None, None, ),  # 2
+    (3, TType.BOOL, 'ignore_doforcekick', None, None, ),  # 3
+    (4, TType.BOOL, 'ignore_doHeardPassRecieve', None, None, ),  # 4
 )
 all_structs.append(ChangePlayerType)
 ChangePlayerType.thrift_spec = (
