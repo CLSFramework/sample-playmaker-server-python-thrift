@@ -53,7 +53,7 @@ class GameHandler:
                                                                                             simple_shoot=True,
                                                                                             simple_dribble=True,
                                                                                             cross=True,
-                                                                                            server_side_decision=False)))
+                                                                                            server_side_decision=True)))
                 actions.append(PlayerAction(helios_shoot=HeliosShoot()))
             else:
                 actions.append(PlayerAction(helios_basic_move=HeliosBasicMove()))
