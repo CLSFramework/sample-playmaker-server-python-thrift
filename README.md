@@ -1,167 +1,137 @@
-# Sample Python Playmaker Server - Thrift
+# Sample Python Base Code (thrift)
 
-This repository contains a sample Playmaker server written in Python using Thrift, designed to facilitate the development of a Soccer Simulation 2D team.
+[![Documentation Status](https://readthedocs.org/projects/clsframework/badge/?version=latest)](https://clsframework.github.io/docs/introduction/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Traditionally, teams in the Soccer Simulation 2D league are implemented in C++ using existing base codes. Each agent in the team receives observations from the Soccer Simulation 2D server and sends actions back to it. However, with the Cross Language Soccer Framework (CLSF), we have enhanced the Helios base code([SoccerSimulationProxy](https://github.com/CLSFramework/soccer-simulation-proxy)) to interact with a Thrift/gRPC server(PlaymakerServer). 
+This repository contains a sample decision-making server for the RoboCup 2D Soccer Simulation, which allows you to create a team by using Python. This server is compatible with the [Cross Language Soccer Framework](https://arxiv.org/pdf/2406.05621). This server is written in Python and uses thrift to communicate with the [proxy](https://github.com/CLSFramework/soccer-simulation-proxy).
 
-This server-based approach allows the simulation to send the necessary information for decision-making to a rpc server and receive the corresponding actions, which are then communicated back to the Soccer Simulation 2D server.
+The Soccer Simulation Server sends the observations to the proxy, which processes the data, create state message and sends it to the decision-making server. The decision-making server then sends the actions to the proxy, and then the proxy convert actions to the server commands and sends them to the server.
 
-This flexibility enables you to develop your team in any programming language of your choice, breaking the constraints of C++.
+For more information, please refer to the [documentation](https://clsframework.github.io/).
 
-This repository provides a sample server implemented in Python using Thrift. You can use this server as a starting point to develop and customize your own team.
+## Quick start
 
-Also, you can find some scripts to download the RCSSServer, SoccerSimulationProxy, and run the sample server and proxy. To use this framework, you need to have Ubuntu or WSL.
+### Preparation
 
-To learn more about the Cross Language Soccer Framework, visit the [official repository](https://github.com/CLSFramework/cross-language-soccer-framework/wiki)
+Install the pre-requisites using the command below:
 
-![cls](https://github.com/user-attachments/assets/4daee216-1479-4acd-88f2-9e772b8c7837)
-
-## Preparation
-
-To run a Soccer Simulation 2D game using the CLSF, you need to have RCSSServer, SoccerSimulationProxy, and Monitor to visualize the game.
-
-### RCSSServer
-To download the latest AppImage of the RCSSServer,  you can run the following command:
-
-```bash
-cd scripts
-./download-rcssserver.sh
+``` Bash
+sudo apt-get install fuse #Used to run AppImages
 ```
 
-To run the RCSSServer AppImage, you need to install FUSE. You can install it by running the following command:
+Clone this repository & install the required python libraries (such as thrift). Don't forget to activate your virtual environment!
 
-```bash
-sudo apt-get install fuse
-```
-
-<u>Notes:</u>
-- You can build the RCSSServer from the source code. For more information, visit the [official repository](https://github.com/rcsoccersim/rcssserver).
-- The RCSSServer should be run on <u>Linux (preferably Ubuntu) or WSL</u>.
-
-
-
-### SoccerSimulationProxy
-
-To download the latest AppImage of the SoccerSimulationProxy, you can run the following command:
-
-```bash
-cd scripts
-./download-proxy.sh
-```
-
-To run the SoccerSimulationProxy AppImage, you need to install FUSE. You can install it by running the following command:
-
-```bash
-sudo apt-get install fuse
-```
-
-<u>Notes:</u>
-- You can build the SoccerSimulationProxy from the source code. For more information, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
-- The SoccerSimulationProxy should be run on <u>Linux (preferably Ubuntu) or WSL</u>.
-
-### Monitor
-
-To download the latest AppImage of the Monitor, you can download it from the [official repository](https://github.com/rcsoccersim/rcssmonitor/releases).
-
-To run the monitor, you need to install FUSE. You can install it by running the following command:
-
-```bash
-sudo apt-get install fuse
-```
-
-### Create Python Virtual Environment and Install Dependencies
-
-To create a Python virtual environment and install the dependencies, you can run the following commands:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
+``` Bash
+git clone https://github.com/CLSFramework/sample-playmaker-server-python-thrift.git
+cd sample-playmaker-server-python-thrift
+# Activate venv/anaconda before this step!
 pip install -r requirements.txt
-./generate.sh # To generate thrift python files
+
+./generate.sh # Generate the thrift files
 ```
 
-## Running a game
+To download RoboCup Soccer 2D Server using the commands below:
 
-To run a game, you need to run the RCSSServer and then the SoccerSimulationProxy and the sample server. To visualize the game, you can run the Monitor.
+``` Bash
+pushd scripts
+sh download-rcssserver.sh # Download the soccer simulation server
+popd
+```
 
-### Running the RCSSServer
-If you have downloaded the RCSSServer AppImage, you can run it by running the following command:
+Next, download the soccer proxy, which uses C++ to read and pre-processes state data and passes them to the Python server (this project) for decision-making.
 
-```bash
+``` Bash
+pushd scripts
+sh download-proxy.sh #install C++ proxy
+popd
+```
+
+Finally, to watch the game, download the monitor from [the original repository](https://github.com/rcsoccersim/rcssmonitor/releases) in order to view the games.
+
+### Running a game
+
+This section assumes you have installed the server & proxy using the scripts (as mentioned above)
+We must first run a RoboCup Server, in order to host the game:
+
+``` Bash
 cd scripts/rcssserver
 ./rcssserver
 ```
 
-Otherwise, you built and install the RCSSServer from the source code, you can run the server by running the following command:
+Then we must run the proxy & the decisionmaking server:
 
-```bash
-rcssserver
-```
-
-## Running the Sample Server and Proxy
-
-There are three different ways to run the sample server:
-
-- Using start-team.py
-- Using start-team.sh
-- Running the server and client separately
-
-### Using start-team.py (This script can be used in Ubuntu or WSL)
-
-Note: To use this script you need to download the proxy by using `scripts/download-proxy.sh`.
-
-Run the `start-team.py` script:
-
-```bash
-python start-team.py
-```
-
-You can pass the following arguments to the script:
-- `--team-name`: The name of the team (default: `CLSF`)
-- `--rpc-port`: The port number for the RPC server (default: `50051`)
-
-### Using start-team.sh (This script can be used in Linux)
-
-Note: To use this script you need to download the proxy by using `scripts/download-proxy.sh`.
-
-Run the `start-team.sh` script:
-
-```bash
+``` Bash
 ./start-team.sh
 ```
 
-You can pass the following arguments to the script:
-- `--team-name`: The name of the team (default: `CLSF`)
-- `--rpc-port`: The port number for the RPC server (default: `50051`)
+### Options
 
-### Running the server and client separately 
+- `-t team_name`: Specify the team name.
+- `--rpc-port PORT`: Specify the RPC port (default: 50051).
+- `-d`: Enable debug mode.
 
-(This method can be used in Windows and Linux, but the proxy can only be run in Linux)
+Launch the opponent team, start the monitor app image. press <kbd>Ctrl</kbd> + <kbd>C</kbd> to connect to the server, and <kbd>Ctrl</kbd> + <kbd>K</kbd> for kick-off!
 
-To run the server, you can run the following command:
+### Tutorial Video (English)
 
-```bash
-python server.py
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/hH-5rkhiQHg/0.jpg)](https://www.youtube.com/watch?v=hH-5rkhiQHg)
+
+### Tutorial Video (Persian)
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/97YDEumcVWU/0.jpg)](https://www.youtube.com/watch?v=97YDEumcVWU&t=0s)
+
+## How to change the code
+
+The `server.py` file contains the logic in 3 main functions:
+`GetPlayerActions` receives a game state, and returns a list of actions for a player for for that cycle.
+The actions we can output are equivalent to the Helios Base (Proxy), which are abstracted into multiple levels.
+You can use actions such as `DoDash`, `DoTurn`, `DoKick` which directly apply force, or use actions such as `GoToPoint`, `SmartKick`, `Shoot` or [more](https://clsframework.github.io/docs/idl/).
+
+Similarly, you can change `GetCoachActions` which is responsible for coach communication & substitutions.
+
+You can also use `GetTrainerActions` to move the players & the ball to make repeatable scenarios (when the server is in trainer mode).
+
+## Why & How it works
+
+Originally the RoboCup 2D Soccer Simulation teams used C++, as the main code base (Agent2D aka Helios Base) was written in this language due to its performance.
+Due to the popularity of python in Machine Learning & AI spaces we decided to create a python platform which would be equivalent to Agent 2D.
+However, using python alone was too slow as preprocessing sensor information & tasks such as localization took too long.
+
+For this reason we have split up the code into two segments:
+The data processing section in proxy, which creates a World Model (state), and passes it to python for planning to occur. This repository uses thrift to pass along the World Model, but there is a sister-repo which is compatible with thrift.
+
+```mermaid
+sequenceDiagram
+    participant SS as SoccerSimulationServer
+    participant SP as SoccerSimulationProxy
+    participant PM as PlayMakerServer
+    Note over SS,PM: Run
+    SP->>SS: Connect
+    SS->>SP: OK, Unum
+    SP->>PM: Register
+    PM->>SP: OK, ClientID
+    SS->>SP: Observation
+    Note over SP: Convert observation to State
+    SP->>PM: State
+    PM->>SP: Actions
+    Note over SP: Convert Actions to Low-Level Commands
+    SP->>SS: Commands
 ```
 
-You can pass the following arguments to the server:
-- `--rpc-port`: The port number for the RPC server (default: `50051`)
+![cls](https://github.com/user-attachments/assets/4daee216-1479-4acd-88f2-9e772b8c7837)
+As seen in the figure, the proxy handles connecting to the server, receiving sensor information and creating a world-model, and finds the action to take via a remote procedure call to a decision-making server, which is this repository.
 
-If you want to run the proxy agents, you can run the following command:
+## Configuration
 
-```bash
-cd scripts/proxy
-./start.sh
-```
+### RoboCup Server configuration
 
-To learn more about the Soccer Simulation Proxy, arguments you can pass, and how to run it, build it from source, visit the [official repository](https://github.com/CLSFramework/soccer-simulation-proxy)
+You can change the configuration of the RoboCup server and change parameters such as players' stamina, game length, field length, etc. by modifying `~/.rcssserver/server.conf`. Refer to the server's documents and repo for a more detailed guide.
 
-#### Running the playmaker server in Windows (Not recommended)
-If you want to run the playmaker server in Windows, you need to somehow connect the proxy to the playmaker server. You can find ip of your local machine(Windows) and use it in the proxy.
-<u>Right now due to some issues with Python multiprocessing, the playmaker server can't be run in Windows.</u>
+### Modifying Proxy & Running proxy and server seperately
 
-## How does it work?
-Berifly, the Soccer Simulation 2D server sends the observations to the proxy, which forwards them to the playmaker server. The playmaker server processes the observations and sends the actions back to the proxy, which forwards them to the Soccer Simulation 2D server.
+If you want to modify the algorithms of the base (such as ball interception, shooting, localization, etc.) you must modify the code of the [proxy repo](https://github.com/CLSFramework/soccer-simulation-proxy). After re-building from source, you can run the proxy by using `./start.sh --rpc-type thrift` in the bin folder of the proxy, and run the thrift server with `python3 server.py` in this repo's directory. It is highly recommended to launch the python server before the proxy.
+
+You can modify the rpc port by adding the argument `--rpc-port [VALUE]`, where the default is 50051.
 
 ## Citation
 
