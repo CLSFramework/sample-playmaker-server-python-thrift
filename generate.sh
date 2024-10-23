@@ -2,4 +2,4 @@
 
 thrift --gen py -out ./ ./idl/*.thrift
 
-python type_generator.py
+python3 type_generator.py
