@@ -1,0 +1,30 @@
+name: Generate Thrift Code
+
+on:
+  push:
+    branches:
+      - develop  
+  pull_request:
+    branches:
+      - develop 
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Thrift
+        run: sudo apt-get install -y thrift-compiler
+    
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  
+
+      - name: Run generate.sh
+        run: |
+          chmod +x ./generate.sh  
+          ./generate.sh
