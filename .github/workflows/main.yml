@@ -38,7 +38,7 @@ jobs:
           cd cls-repo
           
           # Copy updated README to target directory in the CLSFramework.github.io repository
-          cp ../README.md docs/2-sampleserver/0-sample-python-base-code-thrift/index.md
+          cp ../README.md docs/2-sampleserver/1-sample-python-base-code-thrift/index.md
 
           # Create a new branch with a random number appended
           git checkout -b update-readme-thrift-${{ steps.random.outputs.random_number }}
@@ -47,7 +47,7 @@ jobs:
         run: |
           cd cls-repo
           # Add the custom_edit_url to the index.md file
-          sed -i '1s/^/---\ncustom_edit_url: '\''https:\/\/github.com\/CLSFramework\/sample-playmaker-server-python-thrift\/blob\/main\/README.md'\''\n---\n\n/' docs/2-sampleserver/0-sample-python-base-code-thrift/index.md
+          sed -i '1s/^/---\ncustom_edit_url: '\''https:\/\/github.com\/CLSFramework\/sample-playmaker-server-python-thrift\/blob\/main\/README.md'\''\n---\n\n/' docs/2-sampleserver/1-sample-python-base-code-thrift/index.md
 
       - name: Set up authentication using PAT for CLSFramework.github.io
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: Commit and Push Changes to CLSFramework.github.io
         run: |
           cd cls-repo
-          git add docs/2-sampleserver/0-sample-python-base-code-thrift/index.md
+          git add docs/2-sampleserver/1-sample-python-base-code-thrift/index.md
           git commit -m "Update sample server documentation from README"
           git push origin update-readme-thrift-${{ steps.random.outputs.random_number }}
 
