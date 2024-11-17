@@ -12,3 +12,4 @@ soccer/__pycache__/
 scripts/proxy
 scripts/rcssserver
 __pycache__/
+logs/

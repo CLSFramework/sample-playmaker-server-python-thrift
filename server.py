@@ -44,6 +44,8 @@ class GameHandler:
             if state.world_model.myself.is_goalie:
                 actions.append(PlayerAction(helios_goalie=HeliosGoalie()))
             elif state.world_model.myself.is_kickable:
+                # First action is the most important one
+                actions.append(PlayerAction(helios_shoot=HeliosShoot()))
                 actions.append(PlayerAction(helios_offensive_planner=HeliosOffensivePlanner(lead_pass=True,
                                                                                             direct_pass=True,
                                                                                             through_pass=True,
@@ -53,8 +55,7 @@ class GameHandler:
                                                                                             simple_shoot=True,
                                                                                             simple_dribble=True,
                                                                                             cross=True,
-                                                                                            server_side_decision=True)))
-                actions.append(PlayerAction(helios_shoot=HeliosShoot()))
+                                                                                            server_side_decision=False)))
             else:
                 actions.append(PlayerAction(helios_basic_move=HeliosBasicMove()))
         else:
